@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Code">
+      <UniqueIdentifier>{e48e370c-9e51-463f-bbfc-1233fbe75f83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Code\IoC_Lifetimes">
+      <UniqueIdentifier>{c7eae8f7-1b4b-4332-bc78-273f474feb54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Code\IoC_Lifetimes\Global">
+      <UniqueIdentifier>{3a8ee559-edf6-412b-a159-567a029abcd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Code\IoC_Lifetimes\Local">
+      <UniqueIdentifier>{c42b0a2d-e2e3-4d25-8be2-6861450f78bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Code\IoC_Exceptions">
+      <UniqueIdentifier>{488a2b56-6f0a-464c-b859-ebc3e6fb6b72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Code\IoC_Exceptions\IoC_InterfaceException">
+      <UniqueIdentifier>{4849e5c8-590e-42ef-bd7f-162455437038}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Code\IoC_Container">
+      <UniqueIdentifier>{9572198b-3743-4609-ba86-7a38067dbb46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Code\IoC_Container\IoC_Entry">
+      <UniqueIdentifier>{bc1a2acd-f9d4-404b-9a81-853bf7d217d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Code\IoC_GenericConstraints">
+      <UniqueIdentifier>{be39aec5-c9a0-48da-a864-a574c94bd660}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IoC_LocalLifetime.h">
+      <Filter>Source Code\IoC_Lifetimes\Local</Filter>
+    </ClInclude>
+    <ClInclude Include="IoC_GlobalLifetime.h">
+      <Filter>Source Code\IoC_Lifetimes\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="IoC_Container.h">
+      <Filter>Source Code\IoC_Container</Filter>
+    </ClInclude>
+    <ClInclude Include="IoC_Lifetime.h">
+      <Filter>Source Code\IoC_Lifetimes</Filter>
+    </ClInclude>
+    <ClInclude Include="IoC_Entry.h">
+      <Filter>Source Code\IoC_Container\IoC_Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="IoC_InterfaceException.h">
+      <Filter>Source Code\IoC_Exceptions\IoC_InterfaceException</Filter>
+    </ClInclude>
+    <ClInclude Include="IoC_Exceptions.h">
+      <Filter>Source Code\IoC_Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="IoC_Header.h">
+      <Filter>Source Code</Filter>
+    </ClInclude>
+    <ClInclude Include="IoC.h">
+      <Filter>Source Code</Filter>
+    </ClInclude>
+    <ClInclude Include="IoC_GenericConstraints.h">
+      <Filter>Source Code\IoC_GenericConstraints</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="IoC_GlobalLifetime.cpp">
+      <Filter>Source Code\IoC_Lifetimes\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="IoC_LocalLifetime.cpp">
+      <Filter>Source Code\IoC_Lifetimes\Local</Filter>
+    </ClCompile>
+    <ClCompile Include="IoC_Entry.cpp">
+      <Filter>Source Code\IoC_Container\IoC_Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="IoC_InterfaceException.cpp">
+      <Filter>Source Code\IoC_Exceptions\IoC_InterfaceException</Filter>
+    </ClCompile>
+    <ClCompile Include="IoC.cpp">
+      <Filter>Source Code</Filter>
+    </ClCompile>
+    <ClCompile Include="IoC_Container.cpp">
+      <Filter>Source Code\IoC_Container</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
