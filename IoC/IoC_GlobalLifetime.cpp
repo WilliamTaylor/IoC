@@ -26,9 +26,15 @@ ioc::IoC_GlobalLifetime::IoC_GlobalLifetime()
 
 ioc::IoC_GlobalLifetime::~IoC_GlobalLifetime()
 {
+}
+
+void ioc::IoC_GlobalLifetime::deleteInstance(IoC_Entry * entry)
+{
+	auto release = entry->getDeleteHandler();
+
 	if (instance != nullptr)
 	{
-		delete instance;
+		release(instance);
 		instance = nullptr;
 	}
 }
@@ -37,7 +43,7 @@ ioc::IoC_Type ioc::IoC_GlobalLifetime::getInstance(ioc::IoC_Entry * entry)
 {
 	if (instance == nullptr)
 	{
-		instance = entry->getInitHandler()();
+		instance = entry->getCreateHandler()();
 	}
 
 	return instance;

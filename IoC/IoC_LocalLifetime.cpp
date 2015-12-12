@@ -26,11 +26,21 @@ ioc::IoC_LocalLifetime::IoC_LocalLifetime()
 
 ioc::IoC_LocalLifetime::~IoC_LocalLifetime()
 {
+	instances.clear();
+}
+
+void ioc::IoC_LocalLifetime::deleteInstance(IoC_Entry * entry)
+{
+	auto release = entry->getDeleteHandler();
+
+	for (auto& ptr : instances) {
+		release(ptr);
+	}
 }
 
 ioc::IoC_Type ioc::IoC_LocalLifetime::getInstance(ioc::IoC_Entry * entry)
 {
-	IoC_Type type = entry->getInitHandler()();
+	IoC_Type type = entry->getCreateHandler()();
 	instances.push_back(type);
 	return type;
 }

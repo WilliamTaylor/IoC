@@ -31,6 +31,10 @@ public:
 		container->query(&birthService, &nameService, &ageService);
 	}
 
+	~PersonPrinter() {
+		auto i = 0;
+	}
+
 	void print() {
 		cout << nameService->name() << " is ";
 		cout << ageService->age() << " and was born in ";

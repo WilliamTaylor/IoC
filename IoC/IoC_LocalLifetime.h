@@ -28,6 +28,7 @@ namespace ioc {
 			IoC_LocalLifetime();
 			~IoC_LocalLifetime();
 
+			void deleteInstance(IoC_Entry *) override;
 			IoC_Type getInstance(IoC_Entry *) override;
 	};
 }

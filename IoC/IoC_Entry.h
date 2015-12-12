@@ -26,7 +26,8 @@ namespace ioc {
 
 	class IOC_EXPORTS IoC_Entry {
 		private:
-			std::function<IoC_Type()> init_handler;
+			std::function<void(IoC_Type)> delete_handler;
+			std::function<IoC_Type()> create_handler;
 			std::type_index* interface_info;
 			std::type_index* mapping_info;
 
@@ -35,9 +36,11 @@ namespace ioc {
 			IoC_Entry();
 			~IoC_Entry();
 
-			std::function<IoC_Type()> getInitHandler();
+			std::function<void(IoC_Type)> getDeleteHandler();
+			std::function<IoC_Type()> getCreateHandler();
 
-			void setInitHandler(std::function<IoC_Type()> function);
+			void setDeleteHandler(std::function<void(IoC_Type)> function);
+			void setCreateHandler(std::function<IoC_Type()> function);
 			void setTypeInfo(const std::type_info& i, const std::type_info& m);
 			void setLifetime(IoC_Lifetime * lifetime);
 

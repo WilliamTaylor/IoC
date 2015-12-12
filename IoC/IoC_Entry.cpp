@@ -32,12 +32,25 @@ ioc::IoC_Entry::~IoC_Entry()
 {
 	deleteIfAllocated(interface_info);
 	deleteIfAllocated(mapping_info);
+	
+	lifetime->deleteInstance(this);
+	
 	delete lifetime;
 }
 
-void ioc::IoC_Entry::setInitHandler(std::function<ioc::IoC_Type()> function)
+std::function<void(ioc::IoC_Type)> ioc::IoC_Entry::getDeleteHandler()
 {
-	this->init_handler = function;
+	return delete_handler;
+}
+
+void ioc::IoC_Entry::setCreateHandler(std::function<ioc::IoC_Type()> function)
+{
+	this->create_handler = function;
+}
+
+void ioc::IoC_Entry::setDeleteHandler(std::function<void(ioc::IoC_Type)> function)
+{
+	this->delete_handler = function;
 }
 
 void ioc::IoC_Entry::setTypeInfo(const std::type_info& interface, const std::type_info& mapping)
@@ -64,9 +77,9 @@ std::type_index * ioc::IoC_Entry::deleteIfAllocated(std::type_index * type_index
 	return nullptr;
 }
 
-std::function<ioc::IoC_Type()> ioc::IoC_Entry::getInitHandler()
+std::function<ioc::IoC_Type()> ioc::IoC_Entry::getCreateHandler()
 {
-	return init_handler;
+	return create_handler;
 }
 
 ioc::IoC_Type ioc::IoC_Entry::getInstance()

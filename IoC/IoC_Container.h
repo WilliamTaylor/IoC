@@ -71,7 +71,8 @@ namespace ioc {
 		
 		auto iocEntry = new IoC_Entry();
 		iocEntry->setTypeInfo(typeid(Interface), typeid(Mapping));
-		iocEntry->setInitHandler([&](){ return static_cast<IoC_Type>(new Mapping(this)); });
+		iocEntry->setDeleteHandler([&](IoC_Type pointer){ delete static_cast<Mapping *>(pointer); });
+		iocEntry->setCreateHandler([&](){ return static_cast<IoC_Type>(new Mapping(this)); });
 		iocEntry->setLifetime(scope);
 
 		size_t hash = 0;
