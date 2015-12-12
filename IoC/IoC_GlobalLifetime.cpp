@@ -19,8 +19,9 @@
 #include "IoC_GlobalLifetime.h"
 #include "IoC_Container.h"
 
+ioc::IoC_Type ioc::IoC_GlobalLifetime::instance = nullptr;
+
 ioc::IoC_GlobalLifetime::IoC_GlobalLifetime()
-	: instance(nullptr)
 {
 }
 
@@ -30,11 +31,9 @@ ioc::IoC_GlobalLifetime::~IoC_GlobalLifetime()
 
 void ioc::IoC_GlobalLifetime::deleteInstance(IoC_Entry * entry)
 {
-	auto release = entry->getDeleteHandler();
-
 	if (instance != nullptr)
 	{
-		release(instance);
+		entry->getDeleteHandler()(instance);
 		instance = nullptr;
 	}
 }

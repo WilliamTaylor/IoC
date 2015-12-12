@@ -23,19 +23,20 @@ using namespace ioc;
 
 class PersonPrinter : IPrinter {
 private:
+	IoC_Container * container;
 	IBirthService * birthService;
 	INameService * nameService;
 	IAgeService * ageService;
 public:
 	PersonPrinter(IoC_Container * container) {
-		container->query(&birthService, &nameService, &ageService);
+		this->container = container;
 	}
 
-	~PersonPrinter() {
-		auto i = 0;
-	}
+	~PersonPrinter() {}
 
 	void print() {
+		container->query(&birthService, &nameService, &ageService);
+
 		cout << nameService->name() << " is ";
 		cout << ageService->age() << " and was born in ";
 		cout << birthService->country() << endl << endl;
@@ -57,7 +58,7 @@ int main(int argc, char * argv[]) {
 	cout << "\n--------------------------\n";
 
 	auto container = make_injection_container();
-	container->supply<IPrinter, PersonPrinter>(make_multi_instance());
+	container->supply<IPrinter, PersonPrinter>(make_single_instance());
 
 	run<MyBirthService, MyNameService, MyAgeService>(container.get());
 	run<DummyBirthService, DummyNameService, DummyAgeService>(container.get());

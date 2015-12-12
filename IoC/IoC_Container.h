@@ -70,10 +70,15 @@ namespace ioc {
 		Implements<Interface, Mapping>();
 		
 		auto iocEntry = new IoC_Entry();
-		iocEntry->setTypeInfo(typeid(Interface), typeid(Mapping));
-		iocEntry->setDeleteHandler([&](IoC_Type pointer){ delete static_cast<Mapping *>(pointer); });
-		iocEntry->setCreateHandler([&](){ return static_cast<IoC_Type>(new Mapping(this)); });
 		iocEntry->setLifetime(scope);
+		iocEntry->setTypeInfo(typeid(Interface), typeid(Mapping));
+		iocEntry->setCreateHandler([&](){ return static_cast<IoC_Type>(new Mapping(this)); });
+		iocEntry->setDeleteHandler([&](IoC_Type pointer){ 
+			if (pointer != nullptr) {
+				delete static_cast<Mapping *>(pointer);
+				pointer = nullptr;
+			} 
+		});
 
 		size_t hash = 0;
 
