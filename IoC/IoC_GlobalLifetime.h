@@ -23,7 +23,7 @@
 namespace ioc {
 	class IOC_EXPORTS IoC_GlobalLifetime : public IoC_Lifetime {
 		private:
-			static IoC_Type instance;
+			IoC_Type instance;
 		public:
 			IoC_GlobalLifetime();
 			~IoC_GlobalLifetime();

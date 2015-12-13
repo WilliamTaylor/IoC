@@ -19,9 +19,8 @@
 #include "IoC_GlobalLifetime.h"
 #include "IoC_Container.h"
 
-ioc::IoC_Type ioc::IoC_GlobalLifetime::instance = nullptr;
-
 ioc::IoC_GlobalLifetime::IoC_GlobalLifetime()
+	: instance(nullptr)
 {
 }
 

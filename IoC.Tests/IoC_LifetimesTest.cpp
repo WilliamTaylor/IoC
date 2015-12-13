@@ -28,7 +28,7 @@ namespace IoCTests {
 		TEST_METHOD(IoC_Lifetimes_TestGlobalLifetime) {
 			auto e = new IoC_Entry();
 			e->setTypeInfo(typeid(Interface), typeid(Mapping));
-			e->setInitHandler([&]() { return static_cast<IoC_Type>(new Mapping(nullptr)); });
+			e->setCreateHandler([&]() { return static_cast<IoC_Type>(new Mapping(nullptr)); });
 			e->setLifetime(new IoC_GlobalLifetime());
 
 			Assert::AreEqual(e->getInstance(), e->getInstance());
@@ -37,7 +37,7 @@ namespace IoCTests {
 		TEST_METHOD(IoC_Lifetimes_TestLocalLifetime) {
 			auto e = new IoC_Entry();
 			e->setTypeInfo(typeid(Interface), typeid(Mapping));
-			e->setInitHandler([&]() { return static_cast<IoC_Type>(new Mapping(nullptr)); });
+			e->setCreateHandler([&]() { return static_cast<IoC_Type>(new Mapping(nullptr)); });
 			e->setLifetime(new IoC_LocalLifetime());
 
 			Assert::AreNotEqual(e->getInstance(), e->getInstance());
