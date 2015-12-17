@@ -21,45 +21,48 @@
 #include "IoC_LocalLifetime.h"
 #include "IoC_Entry.h"
 
-ioc::IoC_Entry::IoC_Entry() 
-  : interface_info(nullptr),
-	mapping_info(nullptr),
+using namespace std::chrono;
+
+ioc::IoC_Entry::IoC_Entry(IoC_Container * container)
+  : parentContainer(container),
+	interfaceInfo(nullptr),
+	mappingInfo(nullptr),
 	lifetime(nullptr)
 {
+	if (container == nullptr) {
+		throw std::exception("Container cannot be nullptr");
+	} else {
+		system_clock::time_point clock = system_clock::now();
+		system_clock::duration duraction = clock.time_since_epoch();
+		entryID = duraction.count();
+	}
 }
 
 ioc::IoC_Entry::~IoC_Entry()
-{
-	deleteIfAllocated(interface_info);
-	deleteIfAllocated(mapping_info);
-	
+{	
 	lifetime->deleteInstance(this);
-	
+
+	delete interfaceInfo;
+	delete mappingInfo;
 	delete lifetime;
+}
+
+ioc::IoC_ID ioc::IoC_Entry::getID()
+{ 
+	return entryID; 
 }
 
 std::function<void(ioc::IoC_Type)> ioc::IoC_Entry::getDeleteHandler()
 {
-	return delete_handler;
-}
-
-void ioc::IoC_Entry::setCreateHandler(std::function<ioc::IoC_Type()> function)
-{
-	this->create_handler = function;
-}
-
-void ioc::IoC_Entry::setDeleteHandler(std::function<void(ioc::IoC_Type)> function)
-{
-	this->delete_handler = function;
+	return deleteHandler;
 }
 
 void ioc::IoC_Entry::setTypeInfo(const std::type_info& interface, const std::type_info& mapping)
 {
-	interface_info = deleteIfAllocated(interface_info);
-	mapping_info = deleteIfAllocated(mapping_info);
-
-	this->interface_info = new std::type_index(interface);
-	this->mapping_info = new std::type_index(mapping);
+	if (interfaceInfo == nullptr && mappingInfo == nullptr) {
+		this->interfaceInfo = new std::type_index(interface);
+		this->mappingInfo = new std::type_index(mapping);
+	}
 }
 
 void ioc::IoC_Entry::setLifetime(IoC_Lifetime * lifetime)
@@ -67,19 +70,9 @@ void ioc::IoC_Entry::setLifetime(IoC_Lifetime * lifetime)
 	this->lifetime = lifetime;
 }
 
-std::type_index * ioc::IoC_Entry::deleteIfAllocated(std::type_index * type_index)
-{
-	if (type_index != nullptr)
-	{
-		delete type_index;
-	}
-
-	return nullptr;
-}
-
 std::function<ioc::IoC_Type()> ioc::IoC_Entry::getCreateHandler()
 {
-	return create_handler;
+	return createHandler;
 }
 
 ioc::IoC_Type ioc::IoC_Entry::getInstance()
@@ -89,20 +82,20 @@ ioc::IoC_Type ioc::IoC_Entry::getInstance()
 
 size_t ioc::IoC_Entry::getInterfaceHashCode()
 {
-	if (interface_info == nullptr)
+	if (interfaceInfo == nullptr)
 	{
 		throw std::exception("Couldnt get hash code due to null typeinfo");
 	}
 
-	return interface_info->hash_code();
+	return interfaceInfo->hash_code();
 }
 
 size_t ioc::IoC_Entry::getMappingHashCode()
 {
-	if (mapping_info == nullptr)
+	if (mappingInfo == nullptr)
 	{
 		throw std::exception("Couldnt get hash code due to null typeinfo");
 	}
 
-	return mapping_info->hash_code();
+	return mappingInfo->hash_code();
 }

@@ -27,29 +27,30 @@
 #include "IoC_Entry.h"
 
 namespace ioc {
-	class IOC_EXPORTS IoC_Container {
-		private:
-			std::map<size_t, IoC_Entry *> mappings;
-		public:
-			IoC_Container();
-			virtual ~IoC_Container();
-
-			template<typename Dependency, typename... Dependencies>
-			IoC_Container * query(Dependency ** first, Dependencies... args);
+	class IOC_EXPORTS IoC_Container 
+	{
+	private:
+		std::map<size_t, IoC_Entry *> mappings;
+	public:
+		IoC_Container();
+		virtual ~IoC_Container();
+	public:
+		template<typename Dependency, typename... Dependencies>
+		IoC_Container * query(Dependency ** first, Dependencies... args);
 			
-			template<typename Dependency>
-			IoC_Container * query(Dependency ** dependency);
+		template<typename Dependency>
+		IoC_Container * query(Dependency ** dependency);
 
-			template<typename Interface, typename Mapping>
-			IoC_Container * supply(IoC_Lifetime * lifespan = new IoC_LocalLifetime());
+		template<typename Interface, typename Mapping>
+		IoC_Container * supply(IoC_Lifetime * lifespan = new IoC_LocalLifetime());
 
-			template<typename Interface>
-			bool supplied(size_t * hashOutput = nullptr);
-			
-			template<typename Interface>
-			Interface * fetch();
-		private:
-			size_t hash(const std::string& v);
+		template<typename Interface>
+		bool supplied(size_t * hashOutput = nullptr);
+
+		template<typename Interface>
+		Interface * fetch();
+	private:
+		size_t hash(const std::string& v);
 	};
 
 	template<typename Dependency>
@@ -69,16 +70,11 @@ namespace ioc {
 	IoC_Container * ioc::IoC_Container::supply(IoC_Lifetime * scope) {
 		Implements<Interface, Mapping>();
 		
-		auto iocEntry = new IoC_Entry();
+		auto iocEntry = new IoC_Entry(this);
 		iocEntry->setLifetime(scope);
 		iocEntry->setTypeInfo(typeid(Interface), typeid(Mapping));
-		iocEntry->setCreateHandler([&](){ return static_cast<IoC_Type>(new Mapping(this)); });
-		iocEntry->setDeleteHandler([&](IoC_Type pointer){ 
-			if (pointer != nullptr) {
-				delete static_cast<Mapping *>(pointer);
-				pointer = nullptr;
-			} 
-		});
+		iocEntry->setCreateHandler<Mapping>();
+		iocEntry->setDeleteHandler<Mapping>();
 
 		size_t hash = 0;
 

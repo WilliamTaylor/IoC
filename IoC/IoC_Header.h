@@ -20,10 +20,13 @@
 
 #include <functional>
 #include <typeindex>  
+#include <algorithm>
 #include <assert.h>
 #include <iostream>
 #include <type_traits>
+#include <iterator>
 #include <exception>
+#include <chrono>
 #include <typeinfo>  
 #include <sstream>
 #include <string>
@@ -48,6 +51,7 @@
 #define IOC_LIB_MINOR 0
 
 namespace ioc {
+	typedef long long IoC_ID;
 	typedef void * IoC_Type;
 
 	class IoC_Container;

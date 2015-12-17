@@ -35,4 +35,11 @@ namespace ioc {
 			static_assert(std::is_abstract<Object>(), "Object must be an interface/abstract class!");
 		}
 	};
+
+	template<class Object>
+	struct IsClass {
+		IsClass() {
+			static_assert(std::is_class<Object>(), "Object must be a class");
+		}
+	};
 }

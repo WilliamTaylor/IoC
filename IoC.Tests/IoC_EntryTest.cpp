@@ -27,14 +27,14 @@ namespace IoCTests {
 	public:
 		TEST_METHOD(IoC_EntryTest_HashTest1) {
 			const auto& type_info = typeid(Interface);
-			auto e = new IoC_Entry();
+			auto e = new IoC_Entry(make_injection_container().get());
 			e->setTypeInfo(typeid(Interface), typeid(Mapping));
 			Assert::AreEqual(type_info.hash_code(), e->getInterfaceHashCode());
 		}
 
 		TEST_METHOD(IoC_EntryTest_HashTest2) {
 			const auto& type_info = typeid(Mapping);
-			auto e = new IoC_Entry();
+			auto e = new IoC_Entry(make_injection_container().get());
 			e->setTypeInfo(typeid(Interface), typeid(Mapping));
 			Assert::AreEqual(type_info.hash_code(), e->getMappingHashCode());
 		}

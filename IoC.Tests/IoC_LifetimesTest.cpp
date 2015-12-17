@@ -26,18 +26,18 @@ namespace IoCTests {
 	TEST_CLASS(IoC_LifetimesTest) {
 	public:
 		TEST_METHOD(IoC_Lifetimes_TestGlobalLifetime) {
-			auto e = new IoC_Entry();
+			auto e = new IoC_Entry(make_injection_container().get());
 			e->setTypeInfo(typeid(Interface), typeid(Mapping));
-			e->setCreateHandler([&]() { return static_cast<IoC_Type>(new Mapping(nullptr)); });
+			e->setCreateHandler<Mapping>();
 			e->setLifetime(new IoC_GlobalLifetime());
 
 			Assert::AreEqual(e->getInstance(), e->getInstance());
 		}
 
 		TEST_METHOD(IoC_Lifetimes_TestLocalLifetime) {
-			auto e = new IoC_Entry();
+			auto e = new IoC_Entry(make_injection_container().get());
 			e->setTypeInfo(typeid(Interface), typeid(Mapping));
-			e->setCreateHandler([&]() { return static_cast<IoC_Type>(new Mapping(nullptr)); });
+			e->setCreateHandler<Mapping>(); 
 			e->setLifetime(new IoC_LocalLifetime());
 
 			Assert::AreNotEqual(e->getInstance(), e->getInstance());

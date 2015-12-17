@@ -43,7 +43,6 @@ public:
 	}
 };
 
-
 template<class BirthService, class NameService, class AgeService>
 void run(IoC_Container * container) {
 	container->supply<IBirthService, BirthService>();

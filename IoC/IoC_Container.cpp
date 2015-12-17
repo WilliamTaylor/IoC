@@ -24,12 +24,22 @@ ioc::IoC_Container::IoC_Container()
 
 ioc::IoC_Container::~IoC_Container()
 {
-	for (auto& entry : mappings) {
+	using element = std::pair<size_t, IoC_Entry *>;
+	auto predicate = [](element& a, element& b) {
+		return a.second->getID() < b.second->getID();
+	};
+
+	std::vector<std::pair<size_t, IoC_Entry *>> entries;
+	std::copy(mappings.begin(), mappings.end(), std::back_inserter(entries));
+	std::sort(entries.begin(), entries.end(), predicate);
+
+	for (auto& entry : entries) {
 		delete entry.second;
 		entry.second = nullptr;
 	}
 
 	mappings.clear();
+	entries.clear();
 }
 
 size_t ioc::IoC_Container::hash(const std::string& v)
