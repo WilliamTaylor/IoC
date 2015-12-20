@@ -28,6 +28,26 @@ using namespace ioc;
 namespace IoCTests {
 	TEST_CLASS(IoC_ContainerTest) {
 	public:
+		TEST_METHOD(IoC_Container_MemoryCleanupFunction) {
+			auto errorNote = L"Error Mapping was not deleted properly.";
+			
+			try {
+				{
+					auto container = make_injection_container();
+					container->supply<Interface, Mapping>();
+					auto obj = container->fetch<Interface>();
+					obj->method();
+				}
+				
+				if (!Mapping::deleted) {
+					Assert::Fail(errorNote);
+				}
+			}
+			catch (...) {
+				Assert::Fail(L"Unexpected error in test");
+			}
+		}
+
 		TEST_METHOD(IoC_Container_TestingFetchFunction1) {
 			auto errorNote = L"Error IoC_InterfaceException was not thrown.";
 			auto container = make_injection_container();

@@ -27,7 +27,7 @@
 #include "IoC_Entry.h"
 
 namespace ioc {
-	class IOC_EXPORTS IoC_Container 
+	class IOC_EXPORTS IoC_Container
 	{
 	private:
 		std::map<size_t, IoC_Entry *> mappings;
@@ -45,14 +45,20 @@ namespace ioc {
 		IoC_Container * supply(IoC_Lifetime * lifespan = new IoC_LocalLifetime());
 
 		template<typename Interface>
-		bool supplied(size_t * hashOutput = nullptr);
+		IoC_Entry * fetchEntry();
 
 		template<typename Interface>
 		Interface * fetch();
+
+		template<typename Interface>
+		bool supplied(size_t * hashOutput = nullptr);
+
+		size_t size();
 	private:
 		size_t hash(const std::string& v);
 	};
 
+	
 	template<typename Dependency>
 	IoC_Container * ioc::IoC_Container::query(Dependency ** dependency) {
 		IsInterface<Dependency>();
@@ -66,20 +72,28 @@ namespace ioc {
 		return this;
 	}
 
+	template<typename Interface>
+	IoC_Entry * ioc::IoC_Container::fetchEntry() {
+		IsInterface<Interface>();
+		size_t hash = 0;
+
+		if (supplied<Interface>(hash)) {
+			return mappings[hash];
+		} else {
+			return nullptr;
+		}
+	}
+
 	template<typename Interface, typename Mapping>
 	IoC_Container * ioc::IoC_Container::supply(IoC_Lifetime * scope) {
 		Implements<Interface, Mapping>();
-		
-		auto iocEntry = new IoC_Entry(this);
-		iocEntry->setLifetime(scope);
-		iocEntry->setTypeInfo(typeid(Interface), typeid(Mapping));
-		iocEntry->setCreateHandler<Mapping>();
-		iocEntry->setDeleteHandler<Mapping>();
+		IoC_Entry * iocEntry = (new IoC_Entry(this, scope))
+			->setTypeInformation<Interface, Mapping>()
+			->setCreateHandler<Mapping>()
+			->setDeleteHandler<Mapping>();
 
 		size_t hash = 0;
-
-		if (supplied<Interface>(&hash))
-		{
+		if (supplied<Interface>(&hash)) {
 			delete mappings[hash];
 			mappings[hash] = nullptr;
 		}
@@ -94,8 +108,7 @@ namespace ioc {
 
 		auto hash = typeid(Interface).hash_code();
 
-		if (hashOutput != nullptr)
-		{
+		if (hashOutput != nullptr) {
 			(*hashOutput) = hash;
 		}
 

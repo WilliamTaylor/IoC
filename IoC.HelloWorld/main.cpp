@@ -53,8 +53,9 @@ void run(IoC_Container * container) {
 }
 
 int main(int argc, char * argv[]) {
-	cout << "\n - IoC.HelloWorld Example  ";
-	cout << "\n--------------------------\n";
+	cout << endl << " - IoC.HelloWorld Example  " << endl;
+	cout << "--------------------------" << endl;
+	cout << get_library_version() << endl;
 
 	auto container = make_injection_container();
 	container->supply<IPrinter, PersonPrinter>(make_single_instance());

@@ -13,6 +13,19 @@ namespace ioc {
 		}
 	}
 
+	IOC_EXPORTS std::string get_library_version() {
+		int revision_version = IOC_LIB_REVISION;
+		int major_version = IOC_LIB_MAJOR;
+		int minor_version = IOC_LIB_MINOR;
+
+		std::stringstream ss;
+		ss << major_version << ".";
+		ss << minor_version << ".";
+		ss << revision_version;
+
+		return ss.str();
+	}
+
 	IOC_EXPORTS IoC_LocalLifetime * make_multi_instance() {
 		return new IoC_LocalLifetime();
 	}

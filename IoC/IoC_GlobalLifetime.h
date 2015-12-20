@@ -21,14 +21,15 @@
 #include "IoC_Lifetime.h"
 
 namespace ioc {
-	class IOC_EXPORTS IoC_GlobalLifetime : public IoC_Lifetime {
-		private:
-			IoC_Type instance;
-		public:
-			IoC_GlobalLifetime();
-			~IoC_GlobalLifetime();
+	class IOC_EXPORTS IoC_GlobalLifetime : public IoC_Lifetime 
+	{
+	private:
+		IoC_Type instance;
+	public:
+		IoC_GlobalLifetime();
+		virtual ~IoC_GlobalLifetime();
 
-			void deleteInstance(IoC_Entry *) override;
-			IoC_Type getInstance(IoC_Entry *) override;
+		IoC_Type getInstance(IoC_Entry *) override;
+		void deleteInstance(IoC_Entry *) override;
 	};
 }

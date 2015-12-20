@@ -25,10 +25,11 @@
 namespace ioc {
 	class IoC_Container;
 
-	class IOC_EXPORTS IoC_Lifetime {
-		public:
-			virtual ~IoC_Lifetime() { }
-			virtual void deleteInstance(IoC_Entry *) = 0;
-			virtual IoC_Type getInstance(IoC_Entry *) = 0;
+	class IOC_EXPORTS IoC_Lifetime
+	{
+	public:
+		virtual IoC_Type getInstance(IoC_Entry *) = 0;
+		virtual void deleteInstance(IoC_Entry *) = 0;
+		virtual ~IoC_Lifetime() {}
 	};
 }

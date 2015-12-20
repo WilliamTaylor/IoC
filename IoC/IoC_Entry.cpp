@@ -23,19 +23,17 @@
 
 using namespace std::chrono;
 
-ioc::IoC_Entry::IoC_Entry(IoC_Container * container)
+ioc::IoC_Entry::IoC_Entry(IoC_Container * container, IoC_Lifetime * lifetime)
   : parentContainer(container),
+	lifetime(lifetime),
 	interfaceInfo(nullptr),
+	interfaceName(""),
 	mappingInfo(nullptr),
-	lifetime(nullptr)
-{
-	if (container == nullptr) {
-		throw std::exception("Container cannot be nullptr");
-	} else {
-		system_clock::time_point clock = system_clock::now();
-		system_clock::duration duraction = clock.time_since_epoch();
-		entryID = duraction.count();
-	}
+	mappingName("")
+{	
+	system_clock::time_point clock = system_clock::now();
+	system_clock::duration duraction = clock.time_since_epoch();
+	entryID = duraction.count();
 }
 
 ioc::IoC_Entry::~IoC_Entry()
@@ -47,6 +45,17 @@ ioc::IoC_Entry::~IoC_Entry()
 	delete lifetime;
 }
 
+std::string ioc::IoC_Entry::getInterfaceName()
+{
+	return interfaceName;
+}
+
+std::string ioc::IoC_Entry::getMappingName()
+{
+	return mappingName;
+}
+
+
 ioc::IoC_ID ioc::IoC_Entry::getID()
 { 
 	return entryID; 
@@ -55,19 +64,6 @@ ioc::IoC_ID ioc::IoC_Entry::getID()
 std::function<void(ioc::IoC_Type)> ioc::IoC_Entry::getDeleteHandler()
 {
 	return deleteHandler;
-}
-
-void ioc::IoC_Entry::setTypeInfo(const std::type_info& interface, const std::type_info& mapping)
-{
-	if (interfaceInfo == nullptr && mappingInfo == nullptr) {
-		this->interfaceInfo = new std::type_index(interface);
-		this->mappingInfo = new std::type_index(mapping);
-	}
-}
-
-void ioc::IoC_Entry::setLifetime(IoC_Lifetime * lifetime)
-{
-	this->lifetime = lifetime;
 }
 
 std::function<ioc::IoC_Type()> ioc::IoC_Entry::getCreateHandler()

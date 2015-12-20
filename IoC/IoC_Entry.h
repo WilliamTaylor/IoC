@@ -18,35 +18,43 @@
 
 #pragma once
 
+#include "IoC_GenericConstraints.h"
 #include "IoC_Header.h"
 
 namespace ioc {
 	class IoC_Container;
 	class IoC_Lifetime;
 
-	class IOC_EXPORTS IoC_Entry 
+	class IOC_EXPORTS IoC_Entry
 	{
 	private:
 		std::function<void(IoC_Type)> deleteHandler;
 		std::function<IoC_Type()> createHandler;
 		std::type_index * interfaceInfo;
 		std::type_index * mappingInfo;
+		std::string interfaceName;
+		std::string mappingName;
 	private:
 		IoC_Container * parentContainer;
 		IoC_Lifetime * lifetime;
 		IoC_ID entryID;
 	public:
-		IoC_Entry(IoC_Container* container);
+		IoC_Entry(IoC_Container * container, IoC_Lifetime * lifetime);
 		~IoC_Entry();
 
-		template<typename Class> void setDeleteHandler();
-		template<typename Class> void setCreateHandler();
+		template<typename Class> 
+		IoC_Entry * setDeleteHandler();
+
+		template<typename Class> 
+		IoC_Entry * setCreateHandler();
+
+		template<typename Interface, typename Mapping>
+		IoC_Entry * setTypeInformation();
 	public:
 		std::function<void(IoC_Type)> getDeleteHandler();
 		std::function<IoC_Type()> getCreateHandler();
-
-		void setTypeInfo(const std::type_info& interface, const std::type_info& mapping);
-		void setLifetime(IoC_Lifetime * lifetime);
+		std::string getInterfaceName();
+		std::string getMappingName();
 
 		size_t getInterfaceHashCode();
 		size_t getMappingHashCode();
@@ -54,9 +62,23 @@ namespace ioc {
 		IoC_Type getInstance();
 		IoC_ID getID();
 	};
+
+	template<typename Interface, typename Mapping>
+	IoC_Entry * IoC_Entry::setTypeInformation() {
+		Implements<Interface, Mapping>();
+		if (interfaceInfo == nullptr && mappingInfo == nullptr) {
+			interfaceInfo = new std::type_index(typeid(Interface));
+			interfaceName = interfaceInfo->name();
+
+			mappingInfo = new std::type_index(typeid(Mapping));
+			mappingName = mappingInfo->name();
+		}
+
+		return this;
+	}
 	
 	template<typename Class>
-	void IoC_Entry::setDeleteHandler() {
+	IoC_Entry * IoC_Entry::setDeleteHandler() {
 		this->deleteHandler = [&](IoC_Type pointer) {
 			IsClass<Class>();
 			if (pointer != nullptr) {
@@ -64,13 +86,17 @@ namespace ioc {
 				pointer = nullptr;
 			}
 		};
+
+		return this;
 	}
 
 	template<typename Class>
-	void IoC_Entry::setCreateHandler() {
+	IoC_Entry * IoC_Entry::setCreateHandler() {
 		this->createHandler = [&]() {
 			IsClass<Class>();
 			return static_cast<IoC_Type>(new Class(this->parentContainer));
 		};
+
+		return this;
 	}
 }

@@ -22,6 +22,9 @@
     <ClCompile Include="IoC_EntryTest.cpp">
       <Filter>Source Code</Filter>
     </ClCompile>
+    <ClCompile Include="TestData.cpp">
+      <Filter>Mock Code</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestData.h">

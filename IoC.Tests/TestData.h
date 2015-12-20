@@ -28,6 +28,9 @@ public:
 
 class Mapping : public Interface {
 public:
-	Mapping(ioc::IoC_Container*) {}
+	static bool deleted;
+public:
+	Mapping(ioc::IoC_Container*) { }
+	~Mapping() { deleted = true; }
 	void method() override {}
 };

@@ -21,14 +21,15 @@
 #include "IoC_Lifetime.h"
 
 namespace ioc {
-	class IOC_EXPORTS IoC_LocalLifetime : public IoC_Lifetime {
-		private:
-			std::vector<IoC_Type> instances;
-		public:
-			IoC_LocalLifetime();
-			~IoC_LocalLifetime();
+	class IOC_EXPORTS IoC_LocalLifetime : public IoC_Lifetime 
+	{
+	private:
+		std::vector<IoC_Type> instances;
+	public:
+		IoC_LocalLifetime();
+		virtual ~IoC_LocalLifetime();
 
-			void deleteInstance(IoC_Entry *) override;
-			IoC_Type getInstance(IoC_Entry *) override;
+		IoC_Type getInstance(IoC_Entry *) override;
+		void deleteInstance(IoC_Entry *) override;
 	};
 }
