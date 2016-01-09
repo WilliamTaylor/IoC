@@ -2,7 +2,7 @@
 
 IoC is a dependency injection container for C++ applications.
 
-![alt tag](http://www.brandsoftheworld.com/sites/default/files/styles/logo-thumbnail/public/042014/c_0.png?itok=NGrw5nRV)
+![alt tag](http://www.codeproject.com/KB/aspnet/572761/diagram_2.png)
 
 ## Overview
 
@@ -51,4 +51,4 @@ As part of the project you will find the core lib, a helloworld example and some
 * Lockable containers
 
 ## Links
-[DI Explained]("https://en.wikipedia.org/wiki/Dependency_injection"),  [IoC Explained]("https://en.wikipedia.org/wiki/Inversion_of_control")
+[DI Explained](https://en.wikipedia.org/wiki/Dependency_injection),  [IoC Explained](https://en.wikipedia.org/wiki/Inversion_of_control)
