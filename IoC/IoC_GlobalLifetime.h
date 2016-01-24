@@ -23,13 +23,12 @@
 namespace ioc {
 	class IOC_EXPORTS IoC_GlobalLifetime : public IoC_Lifetime 
 	{
-	private:
-		IoC_Type instance;
+		void * instance;
 	public:
 		IoC_GlobalLifetime();
 		virtual ~IoC_GlobalLifetime();
 
-		IoC_Type getInstance(IoC_Entry *) override;
+		void * getInstance(IoC_Entry *) override;
 		void deleteInstance(IoC_Entry *) override;
 	};
 }

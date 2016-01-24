@@ -21,23 +21,28 @@
 using namespace std;
 using namespace ioc;
 
-class PersonPrinter : IPrinter {
-private:
+class PersonPrinter : IPrinter 
+{
 	IoC_Container * container;
 	IBirthService * birthService;
 	INameService * nameService;
 	IAgeService * ageService;
 public:
-	PersonPrinter(IoC_Container * container) {
+	explicit PersonPrinter(IoC_Container * container)
+		: birthService(nullptr), nameService(nullptr), ageService(nullptr)
+	{
 		this->container = container;
 	}
 
-	~PersonPrinter() {}
+	~PersonPrinter() {
+		std::cout << "delete PersonPrinter" << std::endl;
+\
+	}
 
-	void print() {
+	void print() override {
 		container->query(&birthService, &nameService, &ageService);
 
-		cout << nameService->name() << " is ";
+		cout << endl << nameService->name() << " is ";
 		cout << ageService->age() << " and was born in ";
 		cout << birthService->country() << endl << endl;
 	}
@@ -45,23 +50,26 @@ public:
 
 template<class BirthService, class NameService, class AgeService>
 void run(IoC_Container * container) {
+	container->unlock();
 	container->supply<IBirthService, BirthService>();
 	container->supply<INameService, NameService>();
 	container->supply<IAgeService, AgeService>();
 
 	container->fetch<IPrinter>()->print();
+	container->lock();
 }
 
 int main(int argc, char * argv[]) {
-	cout << endl << " - IoC.HelloWorld Example  " << endl;
+	cout << endl << " - IoC.HelloWorld Example " << library_version() << endl;
 	cout << "--------------------------" << endl;
-	cout << get_library_version() << endl;
+	
+	{
+		auto container = make_injection_container();
+		container->supply<IPrinter, PersonPrinter>(make_single_instance());
 
-	auto container = make_injection_container();
-	container->supply<IPrinter, PersonPrinter>(make_single_instance());
-
-	run<MyBirthService, MyNameService, MyAgeService>(container.get());
-	run<DummyBirthService, DummyNameService, DummyAgeService>(container.get());
+		run<DummyBirthService, DummyNameService, DummyAgeService>(container.get());
+		run<MyBirthService, MyNameService, MyAgeService>(container.get());
+	}
 
 	return cin.get();
 }

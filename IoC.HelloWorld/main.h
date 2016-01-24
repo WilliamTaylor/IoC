@@ -50,36 +50,54 @@ public:
 
 class DummyNameService : public INameService {
 public:
-	DummyNameService(ioc::IoC_Container * container) {}
-	std::string name() { return "Bob"; }
+	explicit DummyNameService(ioc::IoC_Container * container) {}
+	std::string name() override { return "Bob"; }
+	~DummyNameService() {
+		std::cout << "delete DummyNameService" << std::endl;
+	}
 };
 
 class DummyAgeService : public IAgeService {
 public:
-	DummyAgeService(ioc::IoC_Container * container) {}
-	int age() { return 25; }
+	explicit DummyAgeService(ioc::IoC_Container * container) {}
+	int age() override { return 25; }
+	~DummyAgeService() {
+		std::cout << "delete DummyAgeService" << std::endl;
+	}
 };
 
 class DummyBirthService : public IBirthService {
 public:
-	DummyBirthService(ioc::IoC_Container * container) {}
-	std::string country() { return "Bobtown"; }
+	explicit DummyBirthService(ioc::IoC_Container * container) {}
+	~DummyBirthService() { 
+		std::cout << "delete DummyBirthService" << std::endl;
+	}
+	std::string country() override { return "Bobtown"; }
 };
 
 class MyNameService : public INameService {
 public:
-	MyNameService(ioc::IoC_Container * container) {}
-	std::string name() { return "William Taylor"; }
+	explicit MyNameService(ioc::IoC_Container * container) {}
+	std::string name() override { return "William Taylor"; }
+	~MyNameService() {
+		std::cout << "delete MyNameService" << std::endl;
+	}
 };
 
 class MyAgeService : public IAgeService {
 public:
-	MyAgeService(ioc::IoC_Container * container) {}
-	int age() { return 21; }
+	explicit MyAgeService(ioc::IoC_Container * container) {}
+	int age() override { return 21; }
+	~MyAgeService() {
+		std::cout << "delete MyAgeService" << std::endl;
+	}
 };
 
 class MyBirthService : public IBirthService {
 public:
-	MyBirthService(ioc::IoC_Container * container) {}
-	std::string country() { return "London"; }
+	explicit MyBirthService(ioc::IoC_Container * container) {}
+	std::string country() override { return "London"; }
+	~MyBirthService() {
+		std::cout << "delete MyBirthService" << std::endl;
+	}
 };

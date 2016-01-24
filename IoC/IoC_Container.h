@@ -27,14 +27,21 @@
 #include "IoC_Entry.h"
 
 namespace ioc {
+	enum IoC_ContainerState {
+		Locked, Unlocked 
+	};
+
 	class IOC_EXPORTS IoC_Container
 	{
-	private:
-		std::map<size_t, IoC_Entry *> mappings;
+		std::map<size_t, std::unique_ptr<IoC_Entry>> mappings;
+		IoC_ContainerState state;
 	public:
 		IoC_Container();
+		IoC_Container(IoC_Container&& container);
+		IoC_Container(const IoC_Container& container) = delete;
+
 		virtual ~IoC_Container();
-	public:
+	
 		template<typename Dependency, typename... Dependencies>
 		IoC_Container * query(Dependency ** first, Dependencies... args);
 			
@@ -42,7 +49,7 @@ namespace ioc {
 		IoC_Container * query(Dependency ** dependency);
 
 		template<typename Interface, typename Mapping>
-		IoC_Container * supply(IoC_Lifetime * lifespan = new IoC_LocalLifetime());
+		IoC_Container * supply(std::unique_ptr<IoC_Lifetime> lifespan = std::make_unique<IoC_LocalLifetime>());
 
 		template<typename Interface>
 		IoC_Entry * fetchEntry();
@@ -51,16 +58,18 @@ namespace ioc {
 		Interface * fetch();
 
 		template<typename Interface>
-		bool supplied(size_t * hashOutput = nullptr);
+		bool supplied(size_t * hashOutput = nullptr) const;
 
-		size_t size();
+		void unlock();
+		void lock();
+
+		size_t size() const;
 	private:
-		size_t hash(const std::string& v);
+		size_t hash(const std::string& v) const;
 	};
 
-	
 	template<typename Dependency>
-	IoC_Container * ioc::IoC_Container::query(Dependency ** dependency) {
+	IoC_Container * IoC_Container::query(Dependency ** dependency) {
 		IsInterface<Dependency>();
 		try {
 			auto object = fetch<Dependency>();
@@ -71,41 +80,31 @@ namespace ioc {
 
 		return this;
 	}
-
+	
 	template<typename Interface>
-	IoC_Entry * ioc::IoC_Container::fetchEntry() {
+	IoC_Entry * IoC_Container::fetchEntry() {
 		IsInterface<Interface>();
 		size_t hash = 0;
-
-		if (supplied<Interface>(hash)) {
-			return mappings[hash];
-		} else {
-			return nullptr;
-		}
+		return supplied<Interface>(hash) ? mappings[hash].get() : nullptr;
 	}
 
 	template<typename Interface, typename Mapping>
-	IoC_Container * ioc::IoC_Container::supply(IoC_Lifetime * scope) {
-		Implements<Interface, Mapping>();
-		IoC_Entry * iocEntry = (new IoC_Entry(this, scope))
-			->setTypeInformation<Interface, Mapping>()
-			->setCreateHandler<Mapping>()
-			->setDeleteHandler<Mapping>();
-
-		size_t hash = 0;
-		if (supplied<Interface>(&hash)) {
-			delete mappings[hash];
-			mappings[hash] = nullptr;
+	IoC_Container * IoC_Container::supply(std::unique_ptr<IoC_Lifetime> scope) {
+		if (state == Unlocked) {
+			Implements<Interface, Mapping>();
+			auto entry = std::make_unique<IoC_Entry>(this, move(scope));
+			entry->setTypeInformation<Interface, Mapping>();
+			entry->setCreateHandler<Mapping>();
+			entry->setDeleteHandler<Mapping>();
+			mappings[typeid(Interface).hash_code()] = move(entry);
 		}
 
-		mappings[hash] = iocEntry;
 		return this;
 	}
 
 	template<typename Interface>
-	bool ioc::IoC_Container::supplied(size_t * hashOutput) {
+	bool IoC_Container::supplied(size_t * hashOutput) const {
 		IsInterface<Interface>();
-
 		auto hash = typeid(Interface).hash_code();
 
 		if (hashOutput != nullptr) {
@@ -116,7 +115,7 @@ namespace ioc {
 	}
 
 	template<typename Interface>
-	Interface * ioc::IoC_Container::fetch() {
+	Interface * IoC_Container::fetch() {
 		IsInterface<Interface>();
 
 		const auto& info = typeid(Interface);
@@ -126,16 +125,12 @@ namespace ioc {
 		{
 			return static_cast<Interface *>(mappings[hash]->getInstance());
 		}
-		else
-		{
-			throw IoC_InterfaceException(info, hash);
-		}
 
-		return nullptr;
+		throw IoC_InterfaceException(info, hash);
 	}
 
 	template<typename Dependency, typename... Dependencies>
-	IoC_Container * ioc::IoC_Container::query(Dependency ** first, Dependencies... args) {
+	IoC_Container * IoC_Container::query(Dependency ** first, Dependencies... args) {
 		IsInterface<Dependency>();
 		return query(first)->query(args...);
 	}

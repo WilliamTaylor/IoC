@@ -30,7 +30,7 @@ class Mapping : public Interface {
 public:
 	static bool deleted;
 public:
-	Mapping(ioc::IoC_Container*) { }
+	explicit Mapping(ioc::IoC_Container*) { }
 	~Mapping() { deleted = true; }
 	void method() override {}
 };

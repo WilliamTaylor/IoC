@@ -21,18 +21,18 @@
 #include "IoC_Header.h"
 
 namespace ioc {
+	template<class Object>
+	struct IsInterface {
+		IsInterface() {
+			static_assert(std::is_abstract<Object>(), "Object must be an interface/abstract class!");
+		}
+	};
+
 	template<class Interface, class Implementee>
 	struct Implements {
 		Implements() {
 			IsInterface<Interface>();
 			static_assert(std::is_base_of<Interface, Implementee>(), "Implementee doesnt implement Interface");
-		}
-	};
-
-	template<class Object>
-	struct IsInterface {
-		IsInterface() {
-			static_assert(std::is_abstract<Object>(), "Object must be an interface/abstract class!");
 		}
 	};
 

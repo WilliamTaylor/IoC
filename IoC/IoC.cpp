@@ -2,35 +2,27 @@
 #include "IoC.h"
 
 namespace ioc {
-	IOC_EXPORTS std::shared_ptr<IoC_Container> make_injection_container(bool singleton) {
-		static IoC_Container * singleContainer = nullptr;
-		if (singleton || singleContainer != nullptr) {
-			singleContainer = singleContainer != nullptr ? singleContainer : new IoC_Container();
-			return std::shared_ptr<IoC_Container>(singleContainer);
-		}
-		else {
-			return std::shared_ptr<IoC_Container>(new IoC_Container());
-		}
+	IOC_EXPORTS std::shared_ptr<IoC_Container> make_injection_container() {
+		return _DEBUG ? std::make_shared<IoC_Container>() : std::make_shared<IoC_Container>();
 	}
 
-	IOC_EXPORTS std::string get_library_version() {
-		int revision_version = IOC_LIB_REVISION;
-		int major_version = IOC_LIB_MAJOR;
-		int minor_version = IOC_LIB_MINOR;
+	IOC_EXPORTS std::unique_ptr<IoC_Lifetime> make_multi_instance() {
+		return _DEBUG ? std::make_unique<IoC_LocalLifetime>() : std::make_unique<IoC_LocalLifetime>();
+	}
+
+	IOC_EXPORTS std::unique_ptr<IoC_Lifetime> make_single_instance() {
+		return _DEBUG ? std::make_unique<IoC_GlobalLifetime>() : std::make_unique<IoC_GlobalLifetime>();
+	}
+
+	IOC_EXPORTS std::string library_version() {
+		auto revision_version { IOC_LIB_REVISION };
+		auto major_version { IOC_LIB_MAJOR };
+		auto minor_version { IOC_LIB_MINOR };
 
 		std::stringstream ss;
 		ss << major_version << ".";
 		ss << minor_version << ".";
 		ss << revision_version;
-
 		return ss.str();
-	}
-
-	IOC_EXPORTS IoC_LocalLifetime * make_multi_instance() {
-		return new IoC_LocalLifetime();
-	}
-
-	IOC_EXPORTS IoC_GlobalLifetime * make_single_instance() {
-		return new IoC_GlobalLifetime();
 	}
 }

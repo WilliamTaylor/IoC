@@ -38,9 +38,9 @@ void ioc::IoC_LocalLifetime::deleteInstance(IoC_Entry * entry)
 	}
 }
 
-ioc::IoC_Type ioc::IoC_LocalLifetime::getInstance(ioc::IoC_Entry * entry)
+void * ioc::IoC_LocalLifetime::getInstance(ioc::IoC_Entry * entry)
 {
-	IoC_Type type = entry->getCreateHandler()();
+	auto type = entry->getCreateHandler()();
 	instances.push_back(type);
 	return type;
 }

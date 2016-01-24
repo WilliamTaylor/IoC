@@ -26,7 +26,7 @@ namespace IoCTests {
 	TEST_CLASS(IoC_ExceptionsTest) {
 	public:
 		TEST_METHOD(IoC_Exceptions_TestMessage) {
-			int hash = 100;
+			auto hash{ 100 };
 
 			try {
 				throw IoC_InterfaceException(typeid(Interface), hash);

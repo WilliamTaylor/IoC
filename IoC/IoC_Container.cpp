@@ -19,34 +19,55 @@
 #include "IoC_Container.h"
 
 ioc::IoC_Container::IoC_Container()
+	: state(Unlocked)
 {
+}
+
+ioc::IoC_Container::IoC_Container(ioc::IoC_Container&& container)
+	: state(Unlocked)
+{
+	for(auto& e : container.mappings)
+	{
+		this->mappings[e.first] = move(e.second);
+	}
+
+	container.state = Locked;
+	container.mappings.clear();
+}
+
+void ioc::IoC_Container::unlock()
+{
+	state = Unlocked;
+}
+
+void ioc::IoC_Container::lock()
+{
+	state = Locked;
 }
 
 ioc::IoC_Container::~IoC_Container()
 {
-	using pair = std::pair<size_t, IoC_Entry *>;
+	using pair = std::pair<size_t, std::unique_ptr<IoC_Entry>>;
 
-	std::vector<std::pair<size_t, IoC_Entry *>> entries;
-	std::copy(mappings.begin(), mappings.end(), std::back_inserter(entries));
-	std::sort(entries.begin(), entries.end(), [](pair& a, pair& b) {
+	std::vector<pair> entries;
+	for(auto& e : mappings) {
+		entries.push_back(pair(e.first, move(e.second)));
+	}
+
+	sort(entries.begin(), entries.end(), [](pair& a, pair& b) {
 		return a.second->getID() < b.second->getID();
 	});
-
-	for (auto& entry : entries) {
-		delete entry.second;
-		entry.second = nullptr;
-	}
 
 	mappings.clear();
 	entries.clear();
 }
 
-size_t ioc::IoC_Container::size()
+size_t ioc::IoC_Container::size() const
 {
 	return mappings.size();
 }
 
-size_t ioc::IoC_Container::hash(const std::string& v)
+size_t ioc::IoC_Container::hash(const std::string& v) const
 {
 	return std::hash<std::string>()(v);
 }

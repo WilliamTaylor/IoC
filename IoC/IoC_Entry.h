@@ -27,20 +27,20 @@ namespace ioc {
 
 	class IOC_EXPORTS IoC_Entry
 	{
-	private:
-		std::function<void(IoC_Type)> deleteHandler;
-		std::function<IoC_Type()> createHandler;
+		IoC_Container * container;
+
+		std::unique_ptr<IoC_Lifetime> lifetime;
+		std::function<void(void *)> deleteHandler;
+		std::function<void *()> createHandler;
 		std::type_index * interfaceInfo;
 		std::type_index * mappingInfo;
 		std::string interfaceName;
 		std::string mappingName;
-	private:
-		IoC_Container * parentContainer;
-		IoC_Lifetime * lifetime;
-		IoC_ID entryID;
+	
+		long long entryID;
 	public:
-		IoC_Entry(IoC_Container * container, IoC_Lifetime * lifetime);
-		~IoC_Entry();
+		explicit IoC_Entry(IoC_Container * container, std::unique_ptr<IoC_Lifetime> lifetime);
+		virtual ~IoC_Entry();
 
 		template<typename Class> 
 		IoC_Entry * setDeleteHandler();
@@ -50,17 +50,17 @@ namespace ioc {
 
 		template<typename Interface, typename Mapping>
 		IoC_Entry * setTypeInformation();
-	public:
-		std::function<void(IoC_Type)> getDeleteHandler();
-		std::function<IoC_Type()> getCreateHandler();
-		std::string getInterfaceName();
-		std::string getMappingName();
 
-		size_t getInterfaceHashCode();
-		size_t getMappingHashCode();
+		std::function<void(void *)> getDeleteHandler() const;
+		std::function<void *()> getCreateHandler() const;
+		std::string getInterfaceName() const;
+		std::string getMappingName() const;
 
-		IoC_Type getInstance();
-		IoC_ID getID();
+		size_t getInterfaceHashCode() const;
+		size_t getMappingHashCode() const;
+		long long getID() const;
+
+		void * getInstance();
 	};
 
 	template<typename Interface, typename Mapping>
@@ -79,7 +79,7 @@ namespace ioc {
 	
 	template<typename Class>
 	IoC_Entry * IoC_Entry::setDeleteHandler() {
-		this->deleteHandler = [&](IoC_Type pointer) {
+		this->deleteHandler = [&](void * pointer) {
 			IsClass<Class>();
 			if (pointer != nullptr) {
 				delete static_cast<Class *>(pointer);
@@ -94,7 +94,7 @@ namespace ioc {
 	IoC_Entry * IoC_Entry::setCreateHandler() {
 		this->createHandler = [&]() {
 			IsClass<Class>();
-			return static_cast<IoC_Type>(new Class(this->parentContainer));
+			return static_cast<void *>(new Class(this->container));
 		};
 
 		return this;

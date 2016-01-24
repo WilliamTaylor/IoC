@@ -37,7 +37,7 @@ void ioc::IoC_GlobalLifetime::deleteInstance(IoC_Entry * entry)
 	}
 }
 
-ioc::IoC_Type ioc::IoC_GlobalLifetime::getInstance(ioc::IoC_Entry * entry)
+void * ioc::IoC_GlobalLifetime::getInstance(ioc::IoC_Entry * entry)
 {
 	if (instance == nullptr)
 	{

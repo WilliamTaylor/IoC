@@ -21,15 +21,15 @@
 #include "IoC_Header.h"
 
 namespace ioc {
-	class IOC_EXPORTS IoC_InterfaceException : std::exception {
-		private:
-			std::type_index * typeDetails;
-			std::string msg;
-			size_t hashCode;
-		public:
-			IoC_InterfaceException(const std::type_info& info, size_t hash);
-			const char * what() const throw() override;
-		private:
-			void generateMessage();
+	class IOC_EXPORTS IoC_InterfaceException : std::exception 
+	{
+		std::type_index * typeDetails;
+		std::string msg;
+		size_t hashCode;
+	public:
+		IoC_InterfaceException(const std::type_info& info, size_t hash);
+		const char * what() const throw() override;
+	private:
+		void generateMessage();
 	};
 }

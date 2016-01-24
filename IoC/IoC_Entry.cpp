@@ -23,17 +23,18 @@
 
 using namespace std::chrono;
 
-ioc::IoC_Entry::IoC_Entry(IoC_Container * container, IoC_Lifetime * lifetime)
-  : parentContainer(container),
-	lifetime(lifetime),
-	interfaceInfo(nullptr),
+ioc::IoC_Entry::IoC_Entry(IoC_Container * container, std::unique_ptr<IoC_Lifetime> life)
+  : interfaceInfo(nullptr), 
 	interfaceName(""),
-	mappingInfo(nullptr),
+	mappingInfo(nullptr), 
 	mappingName("")
 {	
-	system_clock::time_point clock = system_clock::now();
-	system_clock::duration duraction = clock.time_since_epoch();
-	entryID = duraction.count();
+	this->container = container;
+	this->lifetime = move(life);
+
+	auto clock = system_clock::now();
+	auto duration = clock.time_since_epoch();
+	entryID = duration.count();
 }
 
 ioc::IoC_Entry::~IoC_Entry()
@@ -42,41 +43,39 @@ ioc::IoC_Entry::~IoC_Entry()
 
 	delete interfaceInfo;
 	delete mappingInfo;
-	delete lifetime;
 }
 
-std::string ioc::IoC_Entry::getInterfaceName()
+std::string ioc::IoC_Entry::getInterfaceName() const
 {
 	return interfaceName;
 }
 
-std::string ioc::IoC_Entry::getMappingName()
+std::string ioc::IoC_Entry::getMappingName() const
 {
 	return mappingName;
 }
 
-
-ioc::IoC_ID ioc::IoC_Entry::getID()
+long long ioc::IoC_Entry::getID() const
 { 
 	return entryID; 
 }
 
-std::function<void(ioc::IoC_Type)> ioc::IoC_Entry::getDeleteHandler()
+std::function<void(void *)> ioc::IoC_Entry::getDeleteHandler() const
 {
 	return deleteHandler;
 }
 
-std::function<ioc::IoC_Type()> ioc::IoC_Entry::getCreateHandler()
+std::function<void *()> ioc::IoC_Entry::getCreateHandler() const
 {
 	return createHandler;
 }
 
-ioc::IoC_Type ioc::IoC_Entry::getInstance()
+void * ioc::IoC_Entry::getInstance()
 {
 	return lifetime->getInstance(this);
 }
 
-size_t ioc::IoC_Entry::getInterfaceHashCode()
+size_t ioc::IoC_Entry::getInterfaceHashCode() const
 {
 	if (interfaceInfo == nullptr)
 	{
@@ -86,7 +85,7 @@ size_t ioc::IoC_Entry::getInterfaceHashCode()
 	return interfaceInfo->hash_code();
 }
 
-size_t ioc::IoC_Entry::getMappingHashCode()
+size_t ioc::IoC_Entry::getMappingHashCode() const
 {
 	if (mappingInfo == nullptr)
 	{

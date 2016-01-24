@@ -30,7 +30,7 @@ namespace IoCTests {
 	public:
 		TEST_METHOD(IoC_Container_MemoryCleanupFunction) {
 			auto errorNote = L"Error Mapping was not deleted properly.";
-			
+
 			try {
 				{
 					auto container = make_injection_container();
@@ -54,9 +54,10 @@ namespace IoCTests {
 
 			try {
 				container->fetch<Interface>();
-
 				Assert::Fail(errorNote);
-			} catch (...) {}
+			} catch (...) {
+				// This should be hit therefor skipping over the Assert::Fail call.
+			}
 		}
 
 		TEST_METHOD(IoC_Container_TestingFetchFunction2) {
@@ -66,9 +67,7 @@ namespace IoCTests {
 				auto object = container->fetch<Interface>();
 
 				if (object == nullptr)
-				{
 					Assert::Fail(L"Error returned object shouldnt be null");
-				}
 			} catch (IoC_InterfaceException e) {
 				Assert::Fail(L"Error IoC_InterfaceException was thrown");
 			}
@@ -78,11 +77,8 @@ namespace IoCTests {
 			try {
 				auto container = make_injection_container();
 				container->supply<Interface, Mapping>();
-				
 				if (!container->supplied<Interface>())
-				{
 					Assert::Fail(L"Error Interface has not be supplied successfully");
-				}
 			} catch (...) {
 				Assert::Fail(L"Error exception was thrown");
 			}
@@ -90,10 +86,7 @@ namespace IoCTests {
 
 		TEST_METHOD(IoC_Container_TestingSupply2) {
 			try {
-				auto container = make_injection_container();
-
-				if (container->supplied<Interface>())
-				{
+				if (make_injection_container()->supplied<Interface>()) {
 					Assert::Fail(L"Error nothing has been supplied should have returned false.");
 				}
 			} catch (...) {

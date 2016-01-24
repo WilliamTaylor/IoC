@@ -28,7 +28,7 @@ namespace ioc {
 	class IOC_EXPORTS IoC_Lifetime
 	{
 	public:
-		virtual IoC_Type getInstance(IoC_Entry *) = 0;
+		virtual void * getInstance(IoC_Entry *) = 0;
 		virtual void deleteInstance(IoC_Entry *) = 0;
 		virtual ~IoC_Lifetime() {}
 	};
