@@ -2,7 +2,7 @@
 
 IoC is a dependency injection container for C++ applications.
 
-![alt tag](http://www.codeproject.com/KB/aspnet/572761/diagram_2.png)
+![alt tag](http://www.williamsamtaylor.co.uk/github-images/dependency-resolver.jpg)
 
 ## Overview
 
