@@ -22,15 +22,15 @@
 
 class Interface { 
 public:
-	virtual ~Interface() {}
-	virtual void method() = 0;
+    virtual ~Interface() {}
+    virtual void method() = 0;
 };
 
 class Mapping : public Interface {
 public:
-	static bool deleted;
+    static bool deleted;
 public:
-	explicit Mapping(ioc::IoC_Container*) { }
-	~Mapping() { deleted = true; }
-	void method() override {}
+    explicit Mapping(ioc::IoC_Container*) { }
+    ~Mapping() { deleted = true; }
+    void method() override {}
 };

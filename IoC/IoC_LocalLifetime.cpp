@@ -26,22 +26,22 @@ ioc::IoC_LocalLifetime::IoC_LocalLifetime()
 
 ioc::IoC_LocalLifetime::~IoC_LocalLifetime()
 {
-	instances.clear();
+    instances.clear();
 }
 
 void ioc::IoC_LocalLifetime::deleteInstance(IoC_Entry * entry)
 {
-	auto release = entry->getDeleteHandler();
+    auto release = entry->getDeleteHandler();
 
-	for (auto& ptr : instances) {
-		release(ptr);
-	}
+    for (auto& ptr : instances) {
+        release(ptr);
+    }
 }
 
 void * ioc::IoC_LocalLifetime::getInstance(ioc::IoC_Entry * entry)
 {
-	auto type = entry->getCreateHandler()();
-	instances.push_back(type);
-	return type;
+    auto type = entry->getCreateHandler()();
+    instances.push_back(type);
+    return type;
 }
-		
+        

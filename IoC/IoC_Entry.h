@@ -22,81 +22,81 @@
 #include "IoC_Header.h"
 
 namespace ioc {
-	class IoC_Container;
-	class IoC_Lifetime;
+    class IoC_Container;
+    class IoC_Lifetime;
 
-	class IOC_EXPORTS IoC_Entry
-	{
-		IoC_Container * container;
+    class IOC_EXPORTS IoC_Entry
+    {
+        IoC_Container * container;
 
-		std::unique_ptr<IoC_Lifetime> lifetime;
-		std::function<void(void *)> deleteHandler;
-		std::function<void *()> createHandler;
-		std::type_index * interfaceInfo;
-		std::type_index * mappingInfo;
-		std::string interfaceName;
-		std::string mappingName;
-	
-		long long entryID;
-	public:
-		explicit IoC_Entry(IoC_Container * container, std::unique_ptr<IoC_Lifetime> lifetime);
-		virtual ~IoC_Entry();
+        std::unique_ptr<IoC_Lifetime> lifetime;
+        std::function<void(void *)> deleteHandler;
+        std::function<void *()> createHandler;
+        std::type_index * interfaceInfo;
+        std::type_index * mappingInfo;
+        std::string interfaceName;
+        std::string mappingName;
+    
+        long long entryID;
+    public:
+        explicit IoC_Entry(IoC_Container * container, std::unique_ptr<IoC_Lifetime> lifetime);
+        virtual ~IoC_Entry();
 
-		template<typename Class> 
-		IoC_Entry * setDeleteHandler();
+        template<typename Class> 
+        IoC_Entry * setDeleteHandler();
 
-		template<typename Class> 
-		IoC_Entry * setCreateHandler();
+        template<typename Class> 
+        IoC_Entry * setCreateHandler();
 
-		template<typename Interface, typename Mapping>
-		IoC_Entry * setTypeInformation();
+        template<typename Interface, typename Mapping>
+        IoC_Entry * setTypeInformation();
 
-		std::function<void(void *)> getDeleteHandler() const;
-		std::function<void *()> getCreateHandler() const;
-		std::string getInterfaceName() const;
-		std::string getMappingName() const;
+        std::function<void(void *)> getDeleteHandler() const;
+        std::function<void *()> getCreateHandler() const;
+        std::string getInterfaceName() const;
+        std::string getMappingName() const;
 
-		size_t getInterfaceHashCode() const;
-		size_t getMappingHashCode() const;
-		long long getID() const;
+        size_t getInterfaceHashCode() const;
+        size_t getMappingHashCode() const;
+        long long getID() const;
 
-		void * getInstance();
-	};
+        void * getInstance();
+    };
 
-	template<typename Interface, typename Mapping>
-	IoC_Entry * IoC_Entry::setTypeInformation() {
-		Implements<Interface, Mapping>();
-		if (interfaceInfo == nullptr && mappingInfo == nullptr) {
-			interfaceInfo = new std::type_index(typeid(Interface));
-			interfaceName = interfaceInfo->name();
+    template<typename Interface, typename Mapping>
+    IoC_Entry * IoC_Entry::setTypeInformation() {
+        Implements<Interface, Mapping>();
+        if (interfaceInfo == nullptr && mappingInfo == nullptr) {
+            interfaceInfo = new std::type_index(typeid(Interface));
+            interfaceName = interfaceInfo->name();
 
-			mappingInfo = new std::type_index(typeid(Mapping));
-			mappingName = mappingInfo->name();
-		}
+            mappingInfo = new std::type_index(typeid(Mapping));
+            mappingName = mappingInfo->name();
+        }
 
-		return this;
-	}
-	
-	template<typename Class>
-	IoC_Entry * IoC_Entry::setDeleteHandler() {
-		this->deleteHandler = [&](void * pointer) {
-			IsClass<Class>();
-			if (pointer != nullptr) {
-				delete static_cast<Class *>(pointer);
-				pointer = nullptr;
-			}
-		};
+        return this;
+    }
+    
+    template<typename Class>
+    IoC_Entry * IoC_Entry::setDeleteHandler() {
+        this->deleteHandler = [&](void * pointer) {
+            IsClass<Class>();
+            if (pointer != nullptr) {
+                delete static_cast<Class *>(pointer);
+                pointer = nullptr;
+            }
+        };
 
-		return this;
-	}
+        return this;
+    }
 
-	template<typename Class>
-	IoC_Entry * IoC_Entry::setCreateHandler() {
-		this->createHandler = [&]() {
-			IsClass<Class>();
-			return static_cast<void *>(new Class(this->container));
-		};
+    template<typename Class>
+    IoC_Entry * IoC_Entry::setCreateHandler() {
+        this->createHandler = [&]() {
+            IsClass<Class>();
+            return static_cast<void *>(new Class(this->container));
+        };
 
-		return this;
-	}
+        return this;
+    }
 }

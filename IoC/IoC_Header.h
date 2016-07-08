@@ -41,9 +41,9 @@
 #pragma warning(disable: 4005)
 
 #ifdef IOC_EXPORTS
-	#define IOC_EXPORTS __declspec(dllexport) 
+    #define IOC_EXPORTS __declspec(dllexport) 
 #else
-	#define IOC_EXPORTS __declspec(dllimport) 
+    #define IOC_EXPORTS __declspec(dllimport) 
 #endif
 
 #define IOC_LIB_REVISION 0
@@ -51,5 +51,5 @@
 #define IOC_LIB_MINOR 1
 
 namespace ioc {
-	class IoC_Container;
+    class IoC_Container;
 }

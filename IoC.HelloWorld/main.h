@@ -26,78 +26,78 @@
 
 class INameService {
 public:
-	virtual ~INameService() {}
-	virtual std::string name() = 0;
+    virtual ~INameService() {}
+    virtual std::string name() = 0;
 };
 
 class IAgeService {
 public:
-	virtual ~IAgeService() {}
-	virtual int age() = 0;
+    virtual ~IAgeService() {}
+    virtual int age() = 0;
 };
 
 class IBirthService {
 public:
-	virtual ~IBirthService() {}
-	virtual std::string country() = 0;
+    virtual ~IBirthService() {}
+    virtual std::string country() = 0;
 };
 
 class IPrinter {
 public:
-	virtual ~IPrinter() {}
-	virtual void print() = 0;
+    virtual ~IPrinter() {}
+    virtual void print() = 0;
 };
 
 class DummyNameService : public INameService {
 public:
-	explicit DummyNameService(ioc::IoC_Container * container) {}
-	std::string name() override { return "Bob"; }
-	~DummyNameService() {
-		std::cout << "delete DummyNameService" << std::endl;
-	}
+    explicit DummyNameService(ioc::IoC_Container * container) {}
+    std::string name() override { return "Bob"; }
+    ~DummyNameService() {
+        std::cout << "delete DummyNameService" << std::endl;
+    }
 };
 
 class DummyAgeService : public IAgeService {
 public:
-	explicit DummyAgeService(ioc::IoC_Container * container) {}
-	int age() override { return 25; }
-	~DummyAgeService() {
-		std::cout << "delete DummyAgeService" << std::endl;
-	}
+    explicit DummyAgeService(ioc::IoC_Container * container) {}
+    int age() override { return 25; }
+    ~DummyAgeService() {
+        std::cout << "delete DummyAgeService" << std::endl;
+    }
 };
 
 class DummyBirthService : public IBirthService {
 public:
-	explicit DummyBirthService(ioc::IoC_Container * container) {}
-	~DummyBirthService() { 
-		std::cout << "delete DummyBirthService" << std::endl;
-	}
-	std::string country() override { return "Bobtown"; }
+    explicit DummyBirthService(ioc::IoC_Container * container) {}
+    ~DummyBirthService() { 
+        std::cout << "delete DummyBirthService" << std::endl;
+    }
+    std::string country() override { return "Bobtown"; }
 };
 
 class MyNameService : public INameService {
 public:
-	explicit MyNameService(ioc::IoC_Container * container) {}
-	std::string name() override { return "William Taylor"; }
-	~MyNameService() {
-		std::cout << "delete MyNameService" << std::endl;
-	}
+    explicit MyNameService(ioc::IoC_Container * container) {}
+    std::string name() override { return "William Taylor"; }
+    ~MyNameService() {
+        std::cout << "delete MyNameService" << std::endl;
+    }
 };
 
 class MyAgeService : public IAgeService {
 public:
-	explicit MyAgeService(ioc::IoC_Container * container) {}
-	int age() override { return 21; }
-	~MyAgeService() {
-		std::cout << "delete MyAgeService" << std::endl;
-	}
+    explicit MyAgeService(ioc::IoC_Container * container) {}
+    int age() override { return 21; }
+    ~MyAgeService() {
+        std::cout << "delete MyAgeService" << std::endl;
+    }
 };
 
 class MyBirthService : public IBirthService {
 public:
-	explicit MyBirthService(ioc::IoC_Container * container) {}
-	std::string country() override { return "London"; }
-	~MyBirthService() {
-		std::cout << "delete MyBirthService" << std::endl;
-	}
+    explicit MyBirthService(ioc::IoC_Container * container) {}
+    std::string country() override { return "London"; }
+    ~MyBirthService() {
+        std::cout << "delete MyBirthService" << std::endl;
+    }
 };

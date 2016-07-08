@@ -20,27 +20,27 @@
 
 ioc::IoC_InterfaceException::IoC_InterfaceException(const std::type_info& info, size_t hash)
 {
-	this->typeDetails = new std::type_index(info);
-	this->hashCode = hash;
+    this->typeDetails = new std::type_index(info);
+    this->hashCode = hash;
 
-	generateMessage();
+    generateMessage();
 }
 
 void ioc::IoC_InterfaceException::generateMessage()
 {
-	std::stringstream ss;
-	
-	ss << "Error no interface has been registered with this container. ";
-	ss << "Check '";
-	ss << typeDetails->name();
-	ss << "' is registered with this container and has a type mapping. ";
-	ss << "Hash code generated was -> ";
-	ss << hashCode;
+    std::stringstream ss;
+    
+    ss << "Error no interface has been registered with this container. ";
+    ss << "Check '";
+    ss << typeDetails->name();
+    ss << "' is registered with this container and has a type mapping. ";
+    ss << "Hash code generated was -> ";
+    ss << hashCode;
 
-	msg = ss.str();
+    msg = ss.str();
 }
 
 const char * ioc::IoC_InterfaceException::what() const throw()
 {
-	return msg.c_str();
+    return msg.c_str();
 }

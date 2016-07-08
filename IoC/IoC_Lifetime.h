@@ -23,13 +23,13 @@
 #include "IoC_Entry.h"
 
 namespace ioc {
-	class IoC_Container;
+    class IoC_Container;
 
-	class IOC_EXPORTS IoC_Lifetime
-	{
-	public:
-		virtual void * getInstance(IoC_Entry *) = 0;
-		virtual void deleteInstance(IoC_Entry *) = 0;
-		virtual ~IoC_Lifetime() {}
-	};
+    class IOC_EXPORTS IoC_Lifetime
+    {
+    public:
+        virtual void * getInstance(IoC_Entry *) = 0;
+        virtual void deleteInstance(IoC_Entry *) = 0;
+        virtual ~IoC_Lifetime() {}
+    };
 }

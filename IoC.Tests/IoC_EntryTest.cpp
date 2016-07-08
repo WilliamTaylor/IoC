@@ -23,20 +23,20 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace ioc;
 
 namespace IoCTests {
-	TEST_CLASS(IoC_EntryTest) {
-	public:
-		TEST_METHOD(IoC_EntryTest_HashTest1) {
-			const auto& type_info = typeid(Interface);
-			IoC_Entry e(make_injection_container().get(), make_single_instance());
-			e.setTypeInformation<Interface, Mapping>(); 
-			Assert::AreEqual(type_info.hash_code(), e.getInterfaceHashCode());
-		}
+    TEST_CLASS(IoC_EntryTest) {
+    public:
+        TEST_METHOD(IoC_EntryTest_HashTest1) {
+            const auto& type_info = typeid(Interface);
+            IoC_Entry e(make_injection_container().get(), make_single_instance());
+            e.setTypeInformation<Interface, Mapping>(); 
+            Assert::AreEqual(type_info.hash_code(), e.getInterfaceHashCode());
+        }
 
-		TEST_METHOD(IoC_EntryTest_HashTest2) {
-			const auto& type_info = typeid(Mapping);
-			IoC_Entry e(make_injection_container().get(), make_single_instance());
-			e.setTypeInformation<Interface, Mapping>();
-			Assert::AreEqual(type_info.hash_code(), e.getMappingHashCode());
-		}
-	};
+        TEST_METHOD(IoC_EntryTest_HashTest2) {
+            const auto& type_info = typeid(Mapping);
+            IoC_Entry e(make_injection_container().get(), make_single_instance());
+            e.setTypeInformation<Interface, Mapping>();
+            Assert::AreEqual(type_info.hash_code(), e.getMappingHashCode());
+        }
+    };
 }

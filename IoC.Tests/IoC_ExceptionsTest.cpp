@@ -23,28 +23,28 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace ioc;
 
 namespace IoCTests {
-	TEST_CLASS(IoC_ExceptionsTest) {
-	public:
-		TEST_METHOD(IoC_Exceptions_TestMessage) {
-			auto hash{ 100 };
+    TEST_CLASS(IoC_ExceptionsTest) {
+    public:
+        TEST_METHOD(IoC_Exceptions_TestMessage) {
+            auto hash{ 100 };
 
-			try {
-				throw IoC_InterfaceException(typeid(Interface), hash);
-			} catch (IoC_InterfaceException e) {
-				std::string type = typeid(Interface).name();
-				std::string message = (e.what());
-				
-				if (message.find(std::to_string(hash)) == std::string::npos)
-				{
-					Assert::Fail(L"Error couldnt find type hash in exception message.");
-				}
+            try {
+                throw IoC_InterfaceException(typeid(Interface), hash);
+            } catch (IoC_InterfaceException e) {
+                std::string type = typeid(Interface).name();
+                std::string message = (e.what());
+                
+                if (message.find(std::to_string(hash)) == std::string::npos)
+                {
+                    Assert::Fail(L"Error couldnt find type hash in exception message.");
+                }
 
-				if (message.find(type) == std::string::npos)
-				{
-					Assert::Fail(L"Error couldnt find type name in exception message.");
-				}
-			}
-			
-		}
-	};
+                if (message.find(type) == std::string::npos)
+                {
+                    Assert::Fail(L"Error couldnt find type name in exception message.");
+                }
+            }
+            
+        }
+    };
 }

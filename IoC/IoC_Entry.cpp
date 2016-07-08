@@ -25,72 +25,72 @@ using namespace std::chrono;
 
 ioc::IoC_Entry::IoC_Entry(IoC_Container * container, std::unique_ptr<IoC_Lifetime> life)
   : interfaceInfo(nullptr), 
-	interfaceName(""),
-	mappingInfo(nullptr), 
-	mappingName("")
+    interfaceName(""),
+    mappingInfo(nullptr), 
+    mappingName("")
 {	
-	this->container = container;
-	this->lifetime = move(life);
+    this->container = container;
+    this->lifetime = move(life);
 
-	auto clock = system_clock::now();
-	auto duration = clock.time_since_epoch();
-	entryID = duration.count();
+    auto clock = system_clock::now();
+    auto duration = clock.time_since_epoch();
+    entryID = duration.count();
 }
 
 ioc::IoC_Entry::~IoC_Entry()
 {	
-	lifetime->deleteInstance(this);
+    lifetime->deleteInstance(this);
 
-	delete interfaceInfo;
-	delete mappingInfo;
+    delete interfaceInfo;
+    delete mappingInfo;
 }
 
 std::string ioc::IoC_Entry::getInterfaceName() const
 {
-	return interfaceName;
+    return interfaceName;
 }
 
 std::string ioc::IoC_Entry::getMappingName() const
 {
-	return mappingName;
+    return mappingName;
 }
 
 long long ioc::IoC_Entry::getID() const
 { 
-	return entryID; 
+    return entryID; 
 }
 
 std::function<void(void *)> ioc::IoC_Entry::getDeleteHandler() const
 {
-	return deleteHandler;
+    return deleteHandler;
 }
 
 std::function<void *()> ioc::IoC_Entry::getCreateHandler() const
 {
-	return createHandler;
+    return createHandler;
 }
 
 void * ioc::IoC_Entry::getInstance()
 {
-	return lifetime->getInstance(this);
+    return lifetime->getInstance(this);
 }
 
 size_t ioc::IoC_Entry::getInterfaceHashCode() const
 {
-	if (interfaceInfo == nullptr)
-	{
-		throw std::exception("Couldnt get hash code due to null typeinfo");
-	}
+    if (interfaceInfo == nullptr)
+    {
+        throw std::exception("Couldnt get hash code due to null typeinfo");
+    }
 
-	return interfaceInfo->hash_code();
+    return interfaceInfo->hash_code();
 }
 
 size_t ioc::IoC_Entry::getMappingHashCode() const
 {
-	if (mappingInfo == nullptr)
-	{
-		throw std::exception("Couldnt get hash code due to null typeinfo");
-	}
+    if (mappingInfo == nullptr)
+    {
+        throw std::exception("Couldnt get hash code due to null typeinfo");
+    }
 
-	return mappingInfo->hash_code();
+    return mappingInfo->hash_code();
 }

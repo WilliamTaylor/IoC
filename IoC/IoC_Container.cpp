@@ -19,55 +19,55 @@
 #include "IoC_Container.h"
 
 ioc::IoC_Container::IoC_Container()
-	: state(Unlocked)
+    : state(Unlocked)
 {
 }
 
 ioc::IoC_Container::IoC_Container(ioc::IoC_Container&& container)
-	: state(Unlocked)
+    : state(Unlocked)
 {
-	for(auto& e : container.mappings)
-	{
-		this->mappings[e.first] = move(e.second);
-	}
+    for(auto& e : container.mappings)
+    {
+        this->mappings[e.first] = move(e.second);
+    }
 
-	container.state = Locked;
-	container.mappings.clear();
+    container.state = Locked;
+    container.mappings.clear();
 }
 
 void ioc::IoC_Container::unlock()
 {
-	state = Unlocked;
+    state = Unlocked;
 }
 
 void ioc::IoC_Container::lock()
 {
-	state = Locked;
+    state = Locked;
 }
 
 ioc::IoC_Container::~IoC_Container()
 {
-	using pair = std::pair<size_t, std::unique_ptr<IoC_Entry>>;
+    using pair = std::pair<size_t, std::unique_ptr<IoC_Entry>>;
 
-	std::vector<pair> entries;
-	for(auto& e : mappings) {
-		entries.push_back(pair(e.first, move(e.second)));
-	}
+    std::vector<pair> entries;
+    for(auto& e : mappings) {
+        entries.push_back(pair(e.first, move(e.second)));
+    }
 
-	sort(entries.begin(), entries.end(), [](pair& a, pair& b) {
-		return a.second->getID() < b.second->getID();
-	});
+    sort(entries.begin(), entries.end(), [](pair& a, pair& b) {
+        return a.second->getID() < b.second->getID();
+    });
 
-	mappings.clear();
-	entries.clear();
+    mappings.clear();
+    entries.clear();
 }
 
 size_t ioc::IoC_Container::size() const
 {
-	return mappings.size();
+    return mappings.size();
 }
 
 size_t ioc::IoC_Container::hash(const std::string& v) const
 {
-	return std::hash<std::string>()(v);
+    return std::hash<std::string>()(v);
 }

@@ -26,72 +26,72 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace ioc;
 
 namespace IoCTests {
-	TEST_CLASS(IoC_ContainerTest) {
-	public:
-		TEST_METHOD(IoC_Container_MemoryCleanupFunction) {
-			auto errorNote = L"Error Mapping was not deleted properly.";
+    TEST_CLASS(IoC_ContainerTest) {
+    public:
+        TEST_METHOD(IoC_Container_MemoryCleanupFunction) {
+            auto errorNote = L"Error Mapping was not deleted properly.";
 
-			try {
-				{
-					auto container = make_injection_container();
-					container->supply<Interface, Mapping>();
-					auto obj = container->fetch<Interface>();
-					obj->method();
-				}
-				
-				if (!Mapping::deleted) {
-					Assert::Fail(errorNote);
-				}
-			}
-			catch (...) {
-				Assert::Fail(L"Unexpected error in test");
-			}
-		}
+            try {
+                {
+                    auto container = make_injection_container();
+                    container->supply<Interface, Mapping>();
+                    auto obj = container->fetch<Interface>();
+                    obj->method();
+                }
+                
+                if (!Mapping::deleted) {
+                    Assert::Fail(errorNote);
+                }
+            }
+            catch (...) {
+                Assert::Fail(L"Unexpected error in test");
+            }
+        }
 
-		TEST_METHOD(IoC_Container_TestingFetchFunction1) {
-			auto errorNote = L"Error IoC_InterfaceException was not thrown.";
-			auto container = make_injection_container();
+        TEST_METHOD(IoC_Container_TestingFetchFunction1) {
+            auto errorNote = L"Error IoC_InterfaceException was not thrown.";
+            auto container = make_injection_container();
 
-			try {
-				container->fetch<Interface>();
-				Assert::Fail(errorNote);
-			} catch (...) {
-				// This should be hit therefor skipping over the Assert::Fail call.
-			}
-		}
+            try {
+                container->fetch<Interface>();
+                Assert::Fail(errorNote);
+            } catch (...) {
+                // This should be hit therefor skipping over the Assert::Fail call.
+            }
+        }
 
-		TEST_METHOD(IoC_Container_TestingFetchFunction2) {
-			try {
-				auto container = make_injection_container();
-				container->supply<Interface, Mapping>();
-				auto object = container->fetch<Interface>();
+        TEST_METHOD(IoC_Container_TestingFetchFunction2) {
+            try {
+                auto container = make_injection_container();
+                container->supply<Interface, Mapping>();
+                auto object = container->fetch<Interface>();
 
-				if (object == nullptr)
-					Assert::Fail(L"Error returned object shouldnt be null");
-			} catch (IoC_InterfaceException e) {
-				Assert::Fail(L"Error IoC_InterfaceException was thrown");
-			}
-		}
+                if (object == nullptr)
+                    Assert::Fail(L"Error returned object shouldnt be null");
+            } catch (IoC_InterfaceException e) {
+                Assert::Fail(L"Error IoC_InterfaceException was thrown");
+            }
+        }
 
-		TEST_METHOD(IoC_Container_TestingSupply1) {
-			try {
-				auto container = make_injection_container();
-				container->supply<Interface, Mapping>();
-				if (!container->supplied<Interface>())
-					Assert::Fail(L"Error Interface has not be supplied successfully");
-			} catch (...) {
-				Assert::Fail(L"Error exception was thrown");
-			}
-		}
+        TEST_METHOD(IoC_Container_TestingSupply1) {
+            try {
+                auto container = make_injection_container();
+                container->supply<Interface, Mapping>();
+                if (!container->supplied<Interface>())
+                    Assert::Fail(L"Error Interface has not be supplied successfully");
+            } catch (...) {
+                Assert::Fail(L"Error exception was thrown");
+            }
+        }
 
-		TEST_METHOD(IoC_Container_TestingSupply2) {
-			try {
-				if (make_injection_container()->supplied<Interface>()) {
-					Assert::Fail(L"Error nothing has been supplied should have returned false.");
-				}
-			} catch (...) {
-				Assert::Fail(L"Error exception was thrown");
-			}
-		}
-	};
+        TEST_METHOD(IoC_Container_TestingSupply2) {
+            try {
+                if (make_injection_container()->supplied<Interface>()) {
+                    Assert::Fail(L"Error nothing has been supplied should have returned false.");
+                }
+            } catch (...) {
+                Assert::Fail(L"Error exception was thrown");
+            }
+        }
+    };
 }
