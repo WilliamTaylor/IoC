@@ -33,7 +33,7 @@ void bootstrapper() {
 
 You can get a copy with your normal clone command. The project is currently a Visual Studio solution however it won’t be too hard to port the source code into other more cross platform IDE's if you need to.
 
-``` git clone https://github.com/WilliamTaylor/ioc ```
+``` git clone https://github.com/william-taylor/ioc ```
 
 As part of the project you will find the core lib, a helloworld example and some unit tests.
 
