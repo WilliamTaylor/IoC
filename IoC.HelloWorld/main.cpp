@@ -36,7 +36,6 @@ public:
 
     ~PersonPrinter() {
         std::cout << "delete PersonPrinter" << std::endl;
-\
     }
 
     void print() override {
