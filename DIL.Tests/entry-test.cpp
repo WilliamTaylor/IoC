@@ -1,24 +1,31 @@
 #include "CppUnitTest.h"
 #include "test-data.h"
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using Microsoft::VisualStudio::CppUnitTestFramework::Assert;
 
-namespace IoCTests {
-    namespace tests {
-        TEST_CLASS(entry_test) {
+namespace dil 
+{
+    namespace tests 
+    {
+        TEST_CLASS(entry_test) 
+        {
         public:
-            TEST_METHOD(entry_test_hash_test_one) {
+            TEST_METHOD(entry_test_hash_test_one) 
+            {
                 const auto& type_info = typeid(Interface);
-                dil::entry e(dil::make_injection_container().get(), dil::make_single_instance());
-                e.setTypeInformation<Interface, Mapping>(); 
-                Assert::AreEqual(type_info.hash_code(), e.getInterfaceHashCode());
+                const auto container = make_injection_container();
+                entry e(container.get(), make_single_instance());
+                e.createTypeInfo<Interface, Mapping>(); 
+                Assert::AreEqual(type_info.hash_code(), e.getInterfaceType().hash_code());
             }
 
-            TEST_METHOD(entry_test_hash_test_two) {
+            TEST_METHOD(entry_test_hash_test_two) 
+            {
                 const auto& type_info = typeid(Mapping);
-                dil::entry e(dil::make_injection_container().get(), dil::make_single_instance());
-                e.setTypeInformation<Interface, Mapping>();
-                Assert::AreEqual(type_info.hash_code(), e.getMappingHashCode());
+                const auto container = make_injection_container();
+                entry e(container.get(), make_single_instance());
+                e.createTypeInfo<Interface, Mapping>();
+                Assert::AreEqual(type_info.hash_code(), e.getImplementationType().hash_code());
             }
         };
     }

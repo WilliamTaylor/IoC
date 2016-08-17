@@ -23,7 +23,7 @@
     <ClCompile Include="dil.cpp" />
     <ClCompile Include="dil-container.cpp" />
     <ClCompile Include="dil-entry.cpp" />
-    <ClCompile Include="dll-lifetimes.cpp" />
+    <ClCompile Include="dil-lifetimes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dil.h" />

@@ -17,6 +17,25 @@ dil::container::container(dil::container&& container)
     container.mappings.clear();
 }
 
+dil::container::~container()
+{
+    using container_pair = std::pair<size_t, std::unique_ptr<entry>>;
+    std::vector<container_pair> entries;
+    
+    for (auto& e : mappings) 
+    {
+        entries.push_back(container_pair(e.first, move(e.second)));
+    }
+
+    sort(entries.begin(), entries.end(), [&](container_pair& a, container_pair& b)
+    {
+        return a.second->getTimeRegisted() < b.second->getTimeRegisted();
+    });
+
+    mappings.clear();
+    entries.clear();
+}
+
 void dil::container::unlock()
 {
     state = Unlocked;
@@ -25,23 +44,6 @@ void dil::container::unlock()
 void dil::container::lock()
 {
     state = Locked;
-}
-
-dil::container::~container()
-{
-    using pair = std::pair<size_t, std::unique_ptr<dil::entry>>;
-
-    std::vector<pair> entries;
-    for(auto& e : mappings) {
-        entries.push_back(pair(e.first, move(e.second)));
-    }
-
-    sort(entries.begin(), entries.end(), [](pair& a, pair& b) {
-        return a.second->getID() < b.second->getID();
-    });
-
-    mappings.clear();
-    entries.clear();
 }
 
 size_t dil::container::size() const

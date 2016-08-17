@@ -5,14 +5,8 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Mock Code">
-      <UniqueIdentifier>{e8b8aad5-b150-4def-9b7a-e4b4f4b5f4d3}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="test-data.cpp">
-      <Filter>Mock Code</Filter>
-    </ClCompile>
     <ClCompile Include="container-test.cpp">
       <Filter>Source Code</Filter>
     </ClCompile>
@@ -25,10 +19,9 @@
     <ClCompile Include="lifetimes-test.cpp">
       <Filter>Source Code</Filter>
     </ClCompile>
+    <ClCompile Include="test-data.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="test-data.h">
-      <Filter>Mock Code</Filter>
-    </ClInclude>
+    <ClInclude Include="test-data.h" />
   </ItemGroup>
 </Project>

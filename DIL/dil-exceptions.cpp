@@ -1,27 +1,40 @@
 
 #include "dil-exceptions.h"
 
-dil::interface_exception::interface_exception(const std::type_info& info, size_t hash)
+dil::interface_exception::interface_exception(const std::type_info& info, size_t hash) :
+    typeindex(new std::type_index(info)),
+    hashcode(hash)
 {
-    this->typeDetails = new std::type_index(info);
-    this->hashCode = hash;
-
-    generateMessage();
+    createExceptionMessage();
 }
 
-void dil::interface_exception::generateMessage()
+void dil::interface_exception::createExceptionMessage()
 {
     std::stringstream ss;
     ss << "Error no interface has been registered with this container. ";
-    ss << "Check '";
-    ss << typeDetails->name();
+    ss << "Check '" << typeindex->name();
     ss << "' is registered with this container and has a type mapping. ";
-    ss << "Hash code generated was -> ";
-    ss << hashCode;
-    msg = ss.str();
+    ss << "Hash code generated was -> " << hashcode;
+
+    message = ss.str();
+}
+
+const std::type_index& dil::interface_exception::interfaceType() const
+{
+    return *typeindex;
+}
+
+const std::string& dil::interface_exception::exceptionMessage() const
+{
+    return message;
+}
+
+const size_t dil::interface_exception::hash() const
+{
+    return hashcode;   
 }
 
 const char * dil::interface_exception::what() const throw()
 {
-    return msg.c_str();
+    return message.c_str();
 }

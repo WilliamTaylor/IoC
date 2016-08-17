@@ -3,7 +3,6 @@
 #include <functional>
 #include <typeindex>  
 #include <algorithm>
-#include <assert.h>
 #include <iostream>
 #include <type_traits>
 #include <iterator>
@@ -28,10 +27,18 @@
     #define DIL_EXPORTS __declspec(dllimport) 
 #endif
 
-#define DIL_LIB_REVISION 0
-#define DIL_LIB_MAJOR 1
-#define DIL_LIB_MINOR 1
-
-namespace dil {
+namespace dil 
+{
     class container;
+
+    using delete_closure = std::function<void(void *)>;
+    using create_closure = std::function<void *()>;
+    using raw_pointer = void *;
+    using timestamp = long long;
+
+    struct lifetime;
+
+    const int LibVersion = 0;
+    const int LibMajor = 2;
+    const int LibMinor = 0;
 }

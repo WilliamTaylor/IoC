@@ -2,17 +2,23 @@
 
 #include "dil-header.h"
 
-namespace dil {
+namespace dil 
+{
     class DIL_EXPORTS interface_exception : std::exception
     {
-        std::type_index * typeDetails;
-        std::string msg;
-        size_t hashCode;
     public:
         interface_exception(const type_info& info, size_t hash);
+
+        const std::type_index& interfaceType() const;
+        const std::string& exceptionMessage() const;
+        const size_t hash() const;
         const char * what() const throw() override;
     private:
-        void generateMessage();
+        std::type_index* typeindex;
+        std::string message;
+        size_t hashcode;
+
+        void createExceptionMessage();
     };
 }
 

@@ -81,8 +81,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)IoC;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)IoC;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dil;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>

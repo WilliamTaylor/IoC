@@ -3,67 +3,72 @@
 #include "dil-generic-constraints.h"
 #include "dil-header.h"
 
-namespace dil {
-    class container;
-    class lifetime;
+namespace dil 
+{
+    using delete_closure = std::function<void(void *)>;
+    using create_closure = std::function<void *()>;
+    using timestamp = long long;
 
     class DIL_EXPORTS entry
     {
-        container * container;
+        std::unique_ptr<lifetime> lifetimeScope;
+        std::type_index* implementationType;
+        std::type_index* interfaceType;
 
-        std::unique_ptr<lifetime> lifetime;
-        std::function<void(void *)> deleteHandler;
-        std::function<void *()> createHandler;
-        std::type_index * interfaceInfo;
-        std::type_index * mappingInfo;
-        std::string interfaceName;
-        std::string mappingName;
-    
-        long long entryID;
+        delete_closure deleteClosure;
+        create_closure createClosure;
+        timestamp timeRegistered;
+        container * container;
     public:
-        explicit entry(dil::container * container, std::unique_ptr<dil::lifetime> lifetime);
+        explicit entry(dil::container * container, std::unique_ptr<lifetime> lifetime);
         virtual ~entry();
 
-        template<typename Class> 
-        entry * setDeleteHandler();
+        const std::type_index& getImplementationType() const;
+        const std::type_index& getInterfaceType() const;
+        
+        delete_closure getDeleteClosure() const;
+        create_closure getCreateClosure() const;
+       
+        timestamp getTimeRegisted() const;
+
+        template<typename Interface>
+        Interface * getObject();
 
         template<typename Class> 
-        entry * setCreateHandler();
+        entry * createDeleteClosure();
+
+        template<typename Class> 
+        entry * createNewClosure();
 
         template<typename Interface, typename Mapping>
-        entry * setTypeInformation();
-
-        std::function<void(void *)> getDeleteHandler() const;
-        std::function<void *()> getCreateHandler() const;
-        std::string getInterfaceName() const;
-        std::string getMappingName() const;
-
-        size_t getInterfaceHashCode() const;
-        size_t getMappingHashCode() const;
-        long long getID() const;
-
-        void * getInstance();
+        entry * createTypeInfo();
+    private:
+        void * ptr();
     };
 
     template<typename Interface, typename Mapping>
-    entry * entry::setTypeInformation() {
-        dil::Implements<Interface, Mapping>();
-        if (interfaceInfo == nullptr && mappingInfo == nullptr) {
-            interfaceInfo = new std::type_index(typeid(Interface));
-            interfaceName = interfaceInfo->name();
+    entry * entry::createTypeInfo() 
+    {
+        Implements<Interface, Mapping>();
 
-            mappingInfo = new std::type_index(typeid(Mapping));
-            mappingName = mappingInfo->name();
+        if (!interfaceType && !implementationType) 
+        {
+            implementationType = new std::type_index(typeid(Mapping));
+            interfaceType = new std::type_index(typeid(Interface));
         }
 
         return this;
     }
     
     template<typename Class>
-    entry * entry::setDeleteHandler() {
-        this->deleteHandler = [&](void * pointer) {
-            IsClass<Class>();
-            if (pointer != nullptr) {
+    entry * entry::createDeleteClosure() 
+    {
+        IsClass<Class>();
+
+        deleteClosure = [&](void * pointer) -> void
+        {
+            if (pointer != nullptr) 
+            {
                 delete static_cast<Class *>(pointer);
                 pointer = nullptr;
             }
@@ -73,12 +78,21 @@ namespace dil {
     }
 
     template<typename Class>
-    entry * entry::setCreateHandler() {
-        this->createHandler = [&]() {
-            IsClass<Class>();
-            return static_cast<void *>(new Class(this->container));
+    entry * entry::createNewClosure() 
+    {
+        IsClass<Class>();
+
+        createClosure = [&]() -> void * 
+        { 
+            return static_cast<void *>(new Class(this->container)); 
         };
 
         return this;
+    }
+
+    template<typename Interface>
+    Interface * entry::getObject()
+    {    
+        return static_cast<Interface *>(ptr());
     }
 }

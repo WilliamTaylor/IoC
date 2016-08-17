@@ -2,6 +2,8 @@
 
 #include "dil.h"
 
+#pragma comment(lib, "dil.lib")
+
 class Interface { 
 public:
     virtual ~Interface() {}

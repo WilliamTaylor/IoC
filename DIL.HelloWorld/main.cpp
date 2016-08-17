@@ -1,56 +1,40 @@
 #include "main.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::cin;
 
 class PersonPrinter : IPrinter 
 {
-    dil::container * container;
-
     IBirthService * birthService;
     INameService * nameService;
     IAgeService * ageService;
 public:
-    explicit PersonPrinter(dil::container * container)
-        : birthService(nullptr), nameService(nullptr), ageService(nullptr)
+    explicit PersonPrinter(dil::container * container) 
     {
-        this->container = container;
-    }
-
-    ~PersonPrinter() {
-        std::cout << "delete PersonPrinter" << std::endl;
-    }
-
-    void print() override {
         container->query(&birthService, &nameService, &ageService);
+    }
 
-        cout << endl << nameService->name() << " is ";
-        cout << ageService->age() << " and was born in ";
-        cout << birthService->country() << endl << endl;
+    void print() override 
+    {
+        cout << nameService->name() << ", ";
+        cout << ageService->age() << ", ";
+        cout << birthService->country() << endl;
     }
 };
 
-template<class BirthService, class NameService, class AgeService>
-void run(dil::container * container) {
-    container->unlock();
-    container->supply<IBirthService, BirthService>();
-    container->supply<INameService, NameService>();
-    container->supply<IAgeService, AgeService>();
+int main(int argc, char * argv[]) 
+{
+    cout << " - HelloWorld Example " << dil::library_version() << "\n\n"; 
 
-    container->fetch<IPrinter>()->print();
-    container->lock();
-}
+    const auto container = dil::make_injection_container();
+    container->supply<IBirthService, MyBirthService>();
+    container->supply<INameService, MyNameService>();
+    container->supply<IAgeService, MyAgeService>();
+    container->supply<IPrinter, PersonPrinter>();
 
-int main(int argc, char * argv[]) {
-    cout << endl << " - IoC.HelloWorld Example " << dil::library_version() << endl;
-    cout << "--------------------------" << endl;
-    
-    {
-        auto container = dil::make_injection_container();
-        container->supply<IPrinter, PersonPrinter>(dil::make_single_instance());
-
-        run<DummyBirthService, DummyNameService, DummyAgeService>(container.get());
-        run<MyBirthService, MyNameService, MyAgeService>(container.get());
-    }
+    const auto printer = container->fetch<IPrinter>();
+    printer->print();
 
     return cin.get();
 }
