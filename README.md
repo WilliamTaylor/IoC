@@ -1,6 +1,6 @@
 ## Dependency Injection Container for C++.
 
-IoC is a dependency injection container for C++ applications.
+DIL is a dependency injection library for C++ applications.
 
 ![alt tag](http://www.williamsamtaylor.co.uk/github-images/dependency-resolver.jpg)
 
@@ -15,14 +15,14 @@ It allows you to easily create mocks of abstractions for easier testing and allo
 ```c++
 class Mapping : public Interface {
  Abstraction * abs;
- Mapping(ioc::IoC_Container * container) {
+ Mapping(dil::container * container) {
   // Request them
   container->query(&abs);
  }
 }
 
 void bootstrapper() {
-  auto container = ioc::make_injection_container();
+  auto container = dil::make_injection_container();
   container->supply<Abstraction, Dependency>(); // Supply implementations
   container->supply<Interface, Mapping>();
   ...
@@ -33,7 +33,7 @@ void bootstrapper() {
 
 You can get a copy with your normal clone command. The project is currently a Visual Studio solution however it won’t be too hard to port the source code into other more cross platform IDE's if you need to.
 
-``` git clone https://github.com/william-taylor/ioc ```
+``` git clone https://github.com/william-taylor/dil ```
 
 As part of the project you will find the core lib, a helloworld example and some unit tests.
 
