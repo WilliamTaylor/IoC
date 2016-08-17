@@ -1,0 +1,8 @@
+﻿  test-data.cpp
+  lifetimes-test.cpp
+  exceptions-test.cpp
+  entry-test.cpp
+  container-test.cpp
+  Generating Code...
+     Creating library C:\Users\B0023\Desktop\dependency-injection-container\Debug\DIL.Tests.lib and object C:\Users\B0023\Desktop\dependency-injection-container\Debug\DIL.Tests.exp
+  Dil.Tests.vcxproj -> C:\Users\B0023\Desktop\dependency-injection-container\Debug\DIL.Tests.dll

@@ -1,0 +1,8 @@
+﻿  dll-lifetimes.cpp
+  dil-entry.cpp
+  dil-container.cpp
+  dil.cpp
+  dil-exceptions.cpp
+  Generating Code...
+     Creating library C:\Users\B0023\Desktop\dependency-injection-container\x64\Debug\Dil.lib and object C:\Users\B0023\Desktop\dependency-injection-container\x64\Debug\Dil.exp
+  Dil.vcxproj -> C:\Users\B0023\Desktop\dependency-injection-container\x64\Debug\Dil.dll

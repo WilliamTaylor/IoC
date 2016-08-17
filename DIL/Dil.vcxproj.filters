@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Code">
+      <UniqueIdentifier>{e48e370c-9e51-463f-bbfc-1233fbe75f83}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dil-header.h">
+      <Filter>Source Code</Filter>
+    </ClInclude>
+    <ClInclude Include="dil-lifetimes.h">
+      <Filter>Source Code</Filter>
+    </ClInclude>
+    <ClInclude Include="dil-generic-constraints.h">
+      <Filter>Source Code</Filter>
+    </ClInclude>
+    <ClInclude Include="dil-exceptions.h">
+      <Filter>Source Code</Filter>
+    </ClInclude>
+    <ClInclude Include="dil-entry.h">
+      <Filter>Source Code</Filter>
+    </ClInclude>
+    <ClInclude Include="dil-container.h">
+      <Filter>Source Code</Filter>
+    </ClInclude>
+    <ClInclude Include="dil.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dll-lifetimes.cpp">
+      <Filter>Source Code</Filter>
+    </ClCompile>
+    <ClCompile Include="dil-exceptions.cpp">
+      <Filter>Source Code</Filter>
+    </ClCompile>
+    <ClCompile Include="dil-entry.cpp">
+      <Filter>Source Code</Filter>
+    </ClCompile>
+    <ClCompile Include="dil-container.cpp">
+      <Filter>Source Code</Filter>
+    </ClCompile>
+    <ClCompile Include="dil.cpp" />
+  </ItemGroup>
+</Project>
