@@ -31,5 +31,8 @@
 
 
 # Folders
-./Release/
-./Debug/
+DIL.HelloWorld/Debug/
+DIL.Tests/Debug/
+DIL/Debug/
+Release/
+Debug/
