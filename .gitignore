@@ -31,5 +31,5 @@
 
 
 # Folders
-Release/
-Debug/
+./Release/
+./Debug/

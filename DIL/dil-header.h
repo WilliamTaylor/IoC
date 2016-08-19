@@ -3,7 +3,6 @@
 #include <functional>
 #include <typeindex>  
 #include <algorithm>
-#include <iostream>
 #include <type_traits>
 #include <iterator>
 #include <exception>

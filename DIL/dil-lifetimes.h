@@ -15,10 +15,10 @@ namespace dil
     class DIL_EXPORTS local_lifetime : public lifetime
     {
     public:
-        local_lifetime();
-        virtual ~local_lifetime();
+        local_lifetime() = default;
+        virtual ~local_lifetime() = default;
 
-        void * acquire(entry *) override;
+        raw_pointer acquire(entry *) override;
         void release(entry *) override;
     private:
         std::vector<raw_pointer> allocated_objects;
@@ -28,7 +28,7 @@ namespace dil
     {
     public:
         global_lifetime();
-        virtual ~global_lifetime();
+        virtual ~global_lifetime() = default;
 
         raw_pointer acquire(entry *) override;
         void release(entry *) override;

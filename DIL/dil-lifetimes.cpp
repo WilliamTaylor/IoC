@@ -1,15 +1,6 @@
 #include "dil-lifetimes.h"
 #include "dil-entry.h"
 
-dil::local_lifetime::local_lifetime()
-{
-}
-
-dil::local_lifetime::~local_lifetime()
-{
-    allocated_objects.clear();
-}
-
 void dil::local_lifetime::release(entry * entry)
 {
     const auto deleteClosure = entry->getDeleteClosure();
@@ -35,12 +26,8 @@ dil::raw_pointer dil::local_lifetime::acquire(entry * entry)
 }
 
 
-dil::global_lifetime::global_lifetime()
-    : object(nullptr)
-{
-}
-
-dil::global_lifetime::~global_lifetime()
+dil::global_lifetime::global_lifetime() : 
+    object(nullptr)
 {
 }
 

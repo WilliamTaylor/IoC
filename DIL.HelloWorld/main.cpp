@@ -25,7 +25,7 @@ public:
 
 int main(int argc, char * argv[]) 
 {
-    cout << " - HelloWorld Example " << dil::library_version() << "\n\n"; 
+    cout << endl << "HelloWorld Example " << dil::library_version() << endl << endl;
 
     const auto container = dil::make_injection_container();
     container->supply<IBirthService, MyBirthService>();

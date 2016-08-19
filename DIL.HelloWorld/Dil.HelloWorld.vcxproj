@@ -153,9 +153,6 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IoC\IoC.vcxproj">
-      <Project>{8293f93d-385d-4bcf-87a9-c8a8862e5076}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />

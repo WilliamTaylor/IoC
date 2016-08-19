@@ -7,10 +7,10 @@ dil::entry::entry(dil::container * cont, std::unique_ptr<dil::lifetime> life) :
     implementationType(nullptr),
     interfaceType(nullptr)
 {	   
-    const auto clock = system_clock::now();
-    const auto duration = clock.time_since_epoch();
+    const auto systemTime = system_clock::now();
+    const auto duration = systemTime.time_since_epoch();
 
-    timeRegistered = duration.count();
+    timeCreated = duration.count();
     lifetimeScope = move(life);
     container = cont;
 }
@@ -19,26 +19,29 @@ dil::entry::~entry()
 {	
     lifetimeScope->release(this);
 
-    delete implementationType;
-    delete interfaceType;
+    if(implementationType && interfaceType)
+    {
+        delete implementationType;
+        delete interfaceType;
+    }
 }
 
-long long dil::entry::getTimeRegisted() const
+dil::timestamp dil::entry::getTimeRegisted() const
 { 
-    return timeRegistered; 
+    return timeCreated; 
 }
 
-std::function<void(void *)> dil::entry::getDeleteClosure() const
+dil::delete_closure dil::entry::getDeleteClosure() const
 {
     return deleteClosure;
 }
 
-std::function<void *()> dil::entry::getCreateClosure() const
+dil::create_closure dil::entry::getCreateClosure() const
 {
     return createClosure;
 }
 
-void * dil::entry::ptr()
+dil::raw_pointer dil::entry::ptr()
 {
     return lifetimeScope->acquire(this);
 }

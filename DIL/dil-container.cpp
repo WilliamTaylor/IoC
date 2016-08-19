@@ -1,5 +1,7 @@
 #include "dil-container.h"
 
+using container_pair = std::pair<size_t, std::unique_ptr<dil::entry>>;
+
 dil::container::container()
     : state(Unlocked)
 {
@@ -19,7 +21,6 @@ dil::container::container(dil::container&& container)
 
 dil::container::~container()
 {
-    using container_pair = std::pair<size_t, std::unique_ptr<entry>>;
     std::vector<container_pair> entries;
     
     for (auto& e : mappings) 

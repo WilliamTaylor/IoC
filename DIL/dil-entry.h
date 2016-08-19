@@ -5,10 +5,6 @@
 
 namespace dil 
 {
-    using delete_closure = std::function<void(void *)>;
-    using create_closure = std::function<void *()>;
-    using timestamp = long long;
-
     class DIL_EXPORTS entry
     {
         std::unique_ptr<lifetime> lifetimeScope;
@@ -17,8 +13,8 @@ namespace dil
 
         delete_closure deleteClosure;
         create_closure createClosure;
-        timestamp timeRegistered;
         container * container;
+        timestamp timeCreated;
     public:
         explicit entry(dil::container * container, std::unique_ptr<lifetime> lifetime);
         virtual ~entry();
@@ -28,7 +24,6 @@ namespace dil
         
         delete_closure getDeleteClosure() const;
         create_closure getCreateClosure() const;
-       
         timestamp getTimeRegisted() const;
 
         template<typename Interface>

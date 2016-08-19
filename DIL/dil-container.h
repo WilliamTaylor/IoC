@@ -23,11 +23,10 @@ namespace dil
         container(container&& container);
         ~container();
     
-        void unlock();
-        void lock();
-
         size_t hash(const std::string& v) const;
         size_t size() const;
+        void unlock();
+        void lock();
 
         template<typename Interface>
         bool supplied(size_t * hashOutput = nullptr) const;

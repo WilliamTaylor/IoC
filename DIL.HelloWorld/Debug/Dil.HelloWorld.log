@@ -1,3 +1,0 @@
-﻿C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets(1610,5): warning : The referenced project '..\IoC\IoC.vcxproj' does not exist.
-  main.cpp
-  Dil.HelloWorld.vcxproj -> C:\Users\B0023\Desktop\dil\Debug\DIL.HelloWorld.exe

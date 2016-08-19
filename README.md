@@ -22,9 +22,10 @@ class Mapping : public Interface {
 }
 
 void bootstrapper() {
-  auto container = dil::make_injection_container();
+  const auto container = dil::make_injection_container();
   container->supply<Abstraction, Dependency>(); // Supply implementations
   container->supply<Interface, Mapping>();
+  container->lock();
   ...
 }
 ```
