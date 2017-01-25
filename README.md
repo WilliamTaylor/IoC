@@ -1,6 +1,6 @@
 ![alt tag](http://www.williamsamtaylor.co.uk/github-images/dependency-resolver.jpg)
 
-<img align='right' width='150' height='150' src='http://www.flaticon.com/free-icon/injection_168611' />
+<img align='right' width='150' height='150' src='https://image.flaticon.com/icons/svg/168/168611.svg' />
 
 # Dependency Injection Container for C++.
 
