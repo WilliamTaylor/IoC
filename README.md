@@ -1,8 +1,10 @@
-## Dependency Injection Container for C++.
+![alt tag](http://www.williamsamtaylor.co.uk/github-images/dependency-resolver.jpg)
+
+<img align='right' width='150' height='150' src='http://www.flaticon.com/free-icon/injection_168611' />
+
+# Dependency Injection Container for C++.
 
 DIL is a dependency injection library for C++ applications.
-
-![alt tag](http://www.williamsamtaylor.co.uk/github-images/dependency-resolver.jpg)
 
 ## Overview
 
