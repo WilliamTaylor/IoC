@@ -1,4 +1,4 @@
-![alt tag](http://www.williamsamtaylor.co.uk/github-images/dependency-resolver.jpg)
+![alt tag](./example.png)
 
 <img align='right' width='150' height='150' src='https://image.flaticon.com/icons/svg/168/168611.svg' />
 
