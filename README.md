@@ -8,11 +8,11 @@ DIL is a dependency injection library for C++ applications that I built for pers
 wanted to see if it would be possible to do a simple injection container that operated like the container you find in Java and C# which of course
 have runtime type information as well. I managed to get it working and plan to use it in projects in the future.
 
-```java
+```java 
   Object.class
 ```
 
-```c#
+```csharp
   Object.GetType()
 ```
 
