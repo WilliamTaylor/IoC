@@ -4,13 +4,21 @@
 
 # Dependency Injection Container for C++.
 
-DIL is a dependency injection library for C++ applications.
+DIL is a dependency injection library for C++ applications that I built for personal use. As C++14 introduced RTTI (Run Time Type Information) I 
+wanted to see if it would be possible to do a simple injection container that operated like the container you find in Java and C# which of course
+have runtime type information as well. I managed to get it working and plan to use it in projects in the future.
+
+```java
+  Object.class
+```
+
+```c#
+  Object.GetType()
+```
 
 ## Overview
 
-This project is just a simple implementation of constructor based dependency injection in C++. It’s small and lightweight and will be taken forward and improved as time progresses. Type information is captured in lambdas and then constructed and deallocated when new instances of this type are asked for from the container.
-
-It allows you to easily create mocks of abstractions for easier testing and allows you to write new exciting implementations which can sit alongside older code without the need to change allocations.
+This project is just a simple implementation of constructor based dependency injection in C++. It’s small and lightweight and will be taken forward and improved as time progresses. Type information is captured in lambdas and then constructed and deallocated when new instances of this type are asked for from the container. It allows you to easily create mocks of abstractions for easier testing and allows you to write new exciting implementations which can sit alongside older code without the need to change allocations.
 
 ## Example
 
