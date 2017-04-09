@@ -5,6 +5,8 @@
 *.obj
 .vs
 *.sdf
+*.db
+*.opendb
 
 # Precompiled Headers
 *.gch

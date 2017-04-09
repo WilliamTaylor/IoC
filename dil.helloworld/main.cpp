@@ -35,6 +35,6 @@ int main(int argc, char * argv[])
 
     const auto printer = container->fetch<IPrinter>();
     printer->print();
-
-    return cin.get();
+    
+    return std::cin.get();
 }
