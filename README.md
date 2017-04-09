@@ -1,6 +1,6 @@
 ![alt tag](./preview.gif)
 
-<img align='right' width='150' height='150' src='https://image.flaticon.com/icons/svg/168/168611.svg' />
+<img align='right' width='150' height='150' src='icon.png' />
 
 # Dependency Injection Container for C++.
 
