@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include "dil.h"
+#include "../dil/dil.h"
 
 #pragma comment(lib, "dil.lib")
 

@@ -1,6 +1,10 @@
 
 #include "dil.h"
 
+#ifndef _DEBUG
+    #define _DEBUG true
+#endif
+
 namespace dil 
 {
     std::shared_ptr<container> make_injection_container() 

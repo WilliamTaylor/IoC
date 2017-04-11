@@ -1,15 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DIL", "DIL\Dil.vcxproj", "{8293F93D-385D-4BCF-87A9-C8A8862E5076}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DIL", "dil\Dil.vcxproj", "{8293F93D-385D-4BCF-87A9-C8A8862E5076}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DIL.HelloWorld", "Dil.HelloWorld\Dil.HelloWorld.vcxproj", "{AEFDCD67-B122-4D2E-B267-86C2B43B21A1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8293F93D-385D-4BCF-87A9-C8A8862E5076} = {8293F93D-385D-4BCF-87A9-C8A8862E5076}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DIL.Tests", "Dil.Tests\Dil.Tests.vcxproj", "{A49CBC47-D652-440B-9297-19BCA5DC50DD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8293F93D-385D-4BCF-87A9-C8A8862E5076} = {8293F93D-385D-4BCF-87A9-C8A8862E5076}
+		{AEFDCD67-B122-4D2E-B267-86C2B43B21A1} = {AEFDCD67-B122-4D2E-B267-86C2B43B21A1}
 	EndProjectSection
 EndProject
 Global

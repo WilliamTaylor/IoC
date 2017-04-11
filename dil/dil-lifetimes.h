@@ -9,7 +9,7 @@ namespace dil
     {
         virtual raw_pointer acquire(entry * e) = 0;
         virtual void release(entry * e) = 0;
-        virtual ~lifetime() {}
+        virtual ~lifetime() = default;
     };
 
     class DIL_EXPORTS local_lifetime : public lifetime
