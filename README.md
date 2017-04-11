@@ -2,7 +2,7 @@
 
 <img align='right' width='150' height='150' src='icon.png' />
 
-# Dependency Injection Container for C++.
+# C++ Injection Container. &nbsp; [![Build status](https://ci.appveyor.com/api/projects/status/49jy8bmtrxe3v6tf?svg=true)](https://ci.appveyor.com/project/william-taylor/dil) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 DIL is a dependency injection library for C++ applications that I built for personal use. As C++14 introduced RTTI (Run Time Type Information) I 
 wanted to see if it would be possible to do a simple injection container that operated like the container you find in Java and C# which of course
